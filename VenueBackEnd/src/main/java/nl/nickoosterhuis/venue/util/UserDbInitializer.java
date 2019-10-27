@@ -48,6 +48,10 @@ public class UserDbInitializer {
             userRepository.save(new User("admin", "admin@example.com",
                     passwordEncoder.encode("admin"),
                     Arrays.asList(new Role("ADMIN")), AuthProvider.local));
+
+            userRepository.save(new User("user", "user@example.com",
+                    passwordEncoder.encode("user"),
+                    Arrays.asList(new Role("USER")), AuthProvider.local));
         }
     }
 }
