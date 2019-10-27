@@ -26,11 +26,6 @@ public class UserDbInitializer {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User addUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
     @PostConstruct
     private void fillRoles() {
 
