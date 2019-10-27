@@ -9,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "`users`", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
@@ -41,4 +43,16 @@ public class User {
     private AuthProvider provider;
 
     private String providerId;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    private List<Role> roles;
+
+    public User(String name, String email, String password, List<Role> roles, AuthProvider provider) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.provider = provider;
+    }
 }

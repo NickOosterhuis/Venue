@@ -1,15 +1,13 @@
 package nl.nickoosterhuis.venue.security;
 
+import nl.nickoosterhuis.venue.models.Role;
 import nl.nickoosterhuis.venue.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserPrincipal implements OAuth2User, UserDetails {
     private String id;
@@ -26,8 +24,16 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        for(Role role : user.getRoles()) {
+            String name = role.getRoleName().toUpperCase();
+            if(!name.startsWith("ROLE_"))
+                name = "ROLE_" + name;
+
+            authorities.add(new SimpleGrantedAuthority(name));
+        }
+
 
         return new UserPrincipal(
                 user.getId(),

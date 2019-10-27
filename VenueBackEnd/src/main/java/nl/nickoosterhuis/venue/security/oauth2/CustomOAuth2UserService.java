@@ -5,8 +5,8 @@ import nl.nickoosterhuis.venue.models.AuthProvider;
 import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
-import nl.nickoosterhuis.venue.security.oauth2.user.OAuth2UserInfo;
-import nl.nickoosterhuis.venue.security.oauth2.user.OAuth2UserInfoFactory;
+import nl.nickoosterhuis.venue.security.oauth2.user_info.OAuth2UserInfo;
+import nl.nickoosterhuis.venue.security.oauth2.user_info.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Service

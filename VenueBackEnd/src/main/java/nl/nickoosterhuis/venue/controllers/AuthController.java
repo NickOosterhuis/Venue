@@ -2,11 +2,13 @@ package nl.nickoosterhuis.venue.controllers;
 
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
 import nl.nickoosterhuis.venue.models.AuthProvider;
+import nl.nickoosterhuis.venue.models.Role;
 import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.AuthResponse;
 import nl.nickoosterhuis.venue.payload.LoginRequest;
 import nl.nickoosterhuis.venue.payload.SignUpRequest;
+import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.oauth2.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -34,6 +39,9 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -63,8 +71,11 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
         }
 
+        Role role = roleRepository.findByRoleName("USER");
+
         // Creating user's account
         User user = new User();
+        user.setRoles(Collections.singletonList(role));
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());

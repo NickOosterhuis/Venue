@@ -1,4 +1,4 @@
-package nl.nickoosterhuis.venue.security.oauth2.user;
+package nl.nickoosterhuis.venue.security.oauth2.user_info;
 
 import java.util.Map;
 
