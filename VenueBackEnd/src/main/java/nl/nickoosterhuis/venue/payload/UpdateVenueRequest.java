@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class VenueUpdateRequest {
+public class UpdateVenueRequest {
     @NotBlank
     private String streetName;
 

@@ -7,7 +7,7 @@ import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.models.Venue;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.VenueRequest;
-import nl.nickoosterhuis.venue.payload.VenueUpdateRequest;
+import nl.nickoosterhuis.venue.payload.UpdateVenueRequest;
 import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.repositories.VenueRepository;
@@ -87,7 +87,7 @@ public class VenueController {
 
     @PutMapping
     @PreAuthorize("hasRole('ROLE_VENUE')")
-    public ResponseEntity<?> putVenue(@Valid @RequestBody VenueUpdateRequest venueRequest, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> putVenue(@Valid @RequestBody UpdateVenueRequest venueRequest, @CurrentUser UserPrincipal userPrincipal) {
         User currentUser = getUserPrincipal(userPrincipal);
 
         Venue venue = venueRepository.findByUser(currentUser)

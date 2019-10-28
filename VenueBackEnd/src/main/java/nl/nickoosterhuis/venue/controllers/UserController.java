@@ -61,7 +61,6 @@ public class UserController {
         return ResponseEntity.accepted().body(new ApiResponse(true, "User updated successfully@"));
     }
 
-
     private User getUserPrincipal(UserPrincipal userPrincipal) {
         return userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
