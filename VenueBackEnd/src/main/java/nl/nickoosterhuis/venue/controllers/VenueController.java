@@ -7,6 +7,7 @@ import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.models.Venue;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.VenueRequest;
+import nl.nickoosterhuis.venue.payload.VenueUpdateRequest;
 import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.repositories.VenueRepository;
@@ -44,7 +45,8 @@ public class VenueController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getVenueById(@PathVariable("id") String id) {
-        Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
+        Venue venue = venueRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
 
         return new ResponseEntity<>(venue, HttpStatus.OK);
     }
@@ -58,8 +60,7 @@ public class VenueController {
 
         Role role = roleRepository.findByRoleName("VENUE");
 
-        User registeredUser = userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        User registeredUser = getUserPrincipal(userPrincipal);
 
         registeredUser.setRoles(Collections.singletonList(role));
         userRepository.save(registeredUser);
@@ -82,5 +83,30 @@ public class VenueController {
 
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "Venue registered successfully@"));
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('ROLE_VENUE')")
+    public ResponseEntity<?> putVenue(@Valid @RequestBody VenueUpdateRequest venueRequest, @CurrentUser UserPrincipal userPrincipal) {
+        User currentUser = getUserPrincipal(userPrincipal);
+
+        Venue venue = venueRepository.findByUser(currentUser)
+                .orElseThrow(() -> new ResourceNotFoundException("Venue", "user_id", userPrincipal.getId()));
+
+        venue.setPostalCode(venueRequest.getPostalCode());
+        venue.setStreetName(venueRequest.getStreetName());
+        venue.setState(venueRequest.getState());
+        venue.setHouseNumber(venueRequest.getHouseNumber());
+        venue.setCountry(venueRequest.getCountry());
+        venue.setPhoneNumber(venueRequest.getPhoneNumber());
+
+        venueRepository.save(venue);
+
+        return ResponseEntity.accepted().body(new ApiResponse(true, "Venue updated successfully@"));
+    }
+
+    private User getUserPrincipal(UserPrincipal userPrincipal) {
+        return userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 }
