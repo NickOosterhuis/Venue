@@ -1,14 +1,16 @@
 package nl.nickoosterhuis.venue.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,15 +46,11 @@ public class User {
 
     private String providerId;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(nullable = false)
-    private List<Role> roles;
-
-    public User(String name, String email, String password, List<Role> roles, AuthProvider provider) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.provider = provider;
-    }
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }

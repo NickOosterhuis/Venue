@@ -30,9 +30,9 @@ public class UserDbInitializer {
     private void PopulateDatabase() {
 
         if (roleRepository.count() == 0) {
-            roleRepository.save(new Role("ADMIN"));
-            roleRepository.save(new Role("USER"));
-            roleRepository.save(new Role("VENUE"));
+            roleRepository.save(new Role("ROLE_ADMIN"));
+            roleRepository.save(new Role("ROLE_USER"));
+            roleRepository.save(new Role("ROLE_VENUE"));
         }
     }
 }

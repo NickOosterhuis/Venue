@@ -70,7 +70,7 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
         }
 
-        Role role = roleRepository.findByRoleName("USER").orElseThrow(() -> new ResourceNotFoundException("Venue", "user_id", signUpRequest.getEmail()));;
+        Role role = roleRepository.findByRoleName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("User", "user_id", signUpRequest.getEmail()));;
 
         // Creating user's account
         User user = new User();
