@@ -67,12 +67,16 @@ public class EventController {
 
         Event event = new Event();
         event.setTitle(eventRequest.getTitle());
+        event.setDescription(eventRequest.getDescription());
         event.setCountry(eventRequest.getCountry());
         event.setPostalCode(eventRequest.getPostalCode());
         event.setHouseNumber(eventRequest.getHouseNumber());
         event.setState(eventRequest.getState());
         event.setStreetName(eventRequest.getStreetName());
+        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
+        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
         event.setVenue(registeredVenue);
+
 
         Event result = eventRepository.save(event);
 
@@ -102,10 +106,14 @@ public class EventController {
             throw new BadRequestException("Venue is not the owner of the event");
 
         event.setPostalCode(eventRequest.getPostalCode());
-        event.setStreetName(event.getStreetName());
-        event.setState(event.getState());
-        event.setHouseNumber(event.getHouseNumber());
-        event.setCountry(event.getCountry());
+        event.setStreetName(eventRequest.getStreetName());
+        event.setState(eventRequest.getState());
+        event.setHouseNumber(eventRequest.getHouseNumber());
+        event.setCountry(eventRequest.getCountry());
+        event.setDescription(eventRequest.getDescription());
+        event.setTitle(eventRequest.getTitle());
+        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
+        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
 
         eventRepository.save(event);
 

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -16,10 +17,10 @@ public class UpdateEventRequest {
     private String description;
 
     @NotBlank
-    private LocalDateTime startDateAndTime;
+    private OffsetDateTime startDateAndTime;
 
     @NotBlank
-    private LocalDateTime endDateAndTime;
+    private OffsetDateTime endDateAndTime;
 
     @NotBlank
     private String streetName;

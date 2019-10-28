@@ -22,11 +22,11 @@ import java.time.format.DateTimeFormatter;
 public class Event {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "venue_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Venue venue;

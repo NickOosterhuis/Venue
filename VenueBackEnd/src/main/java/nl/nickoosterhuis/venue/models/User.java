@@ -19,8 +19,8 @@ import java.util.Optional;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(nullable = false, unique = true)
@@ -44,7 +44,7 @@ public class User {
 
     private String providerId;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @Column(nullable = false)
     private List<Role> roles;
 

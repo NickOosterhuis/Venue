@@ -62,7 +62,7 @@ public class VenueController {
             throw new BadRequestException("Company name already in use.");
         }
 
-        Role role = roleRepository.findByRoleName("VENUE");
+        Role role = roleRepository.findByRoleName("VENUE").orElseThrow(() -> new ResourceNotFoundException("Role", "id", userPrincipal.getId()));;
 
         User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
 

@@ -27,27 +27,12 @@ public class UserDbInitializer {
     private PasswordEncoder passwordEncoder;
 
     @PostConstruct
-    private void fillRoles() {
+    private void PopulateDatabase() {
 
         if (roleRepository.count() == 0) {
             roleRepository.save(new Role("ADMIN"));
             roleRepository.save(new Role("USER"));
             roleRepository.save(new Role("VENUE"));
-        }
-    }
-
-    @PostConstruct
-    private void setupDefaultUser() {
-
-        if (userRepository.count() == 0) {
-
-            userRepository.save(new User("admin", "admin@example.com",
-                    passwordEncoder.encode("admin"),
-                    Arrays.asList(new Role("ADMIN")), AuthProvider.local));
-
-            userRepository.save(new User("user", "user@example.com",
-                    passwordEncoder.encode("user"),
-                    Arrays.asList(new Role("USER")), AuthProvider.local));
         }
     }
 }

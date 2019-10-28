@@ -1,6 +1,7 @@
 package nl.nickoosterhuis.venue.controllers;
 
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
+import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.AuthProvider;
 import nl.nickoosterhuis.venue.models.Role;
 import nl.nickoosterhuis.venue.models.User;
@@ -69,15 +70,15 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
         }
 
-        Role role = roleRepository.findByRoleName("USER");
+        Role role = roleRepository.findByRoleName("USER").orElseThrow(() -> new ResourceNotFoundException("Venue", "user_id", signUpRequest.getEmail()));;
 
         // Creating user's account
         User user = new User();
-        user.setRoles(Collections.singletonList(role));
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
+        user.setRoles(Collections.singletonList(role));
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
