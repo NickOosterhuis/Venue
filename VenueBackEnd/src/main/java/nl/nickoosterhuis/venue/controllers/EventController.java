@@ -55,8 +55,8 @@ public class EventController {
     }
 
     @PostMapping
-    //@PreAuthorize("hasRole('ROLE_VENUE')")
-    public ResponseEntity<?> postVenue(@Valid @RequestBody EventRequest eventRequest, @CurrentUser UserPrincipal userPrincipal) {
+    @PreAuthorize("hasRole('ROLE_VENUE')")
+    public ResponseEntity<?> postEvent(@Valid @RequestBody EventRequest eventRequest, @CurrentUser UserPrincipal userPrincipal) {
         if(eventRepository.existsByTitle(eventRequest.getTitle())) {
             throw new BadRequestException("Event name already in use.");
         }
