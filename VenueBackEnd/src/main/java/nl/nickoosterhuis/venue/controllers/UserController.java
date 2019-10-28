@@ -9,6 +9,7 @@ import nl.nickoosterhuis.venue.payload.UpdateProfilePictureRequest;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
+import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
@@ -28,16 +29,19 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserPrincipalHelper userPrincipalHelper;
+
     @GetMapping("/me")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
-        return getUserPrincipal(userPrincipal);
+        return userPrincipalHelper.getUserPrincipal(userPrincipal);
     }
 
     @PutMapping("/profilePicture")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
     public ResponseEntity<?> updateProfilePicture(@Valid @RequestBody UpdateProfilePictureRequest updateProfilePictureRequest, @CurrentUser UserPrincipal userPrincipal) {
-        User user = getUserPrincipal(userPrincipal);
+        User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         user.setProfilePictureUrl(updateProfilePictureRequest.getImageUrl());
         userRepository.save(user);
@@ -49,7 +53,7 @@ public class UserController {
     @PutMapping("/me")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
     public ResponseEntity<?> updateCurrentUser(@Valid @RequestBody UpdateAccountRequest updateAccountRequest, @CurrentUser UserPrincipal userPrincipal) {
-        User user = getUserPrincipal(userPrincipal);
+        User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         if (!updateAccountRequest.getNewPassword().equals(updateAccountRequest.getNewPasswordVerification()))
             throw new BadRequestException("Passwords don't match");
@@ -59,10 +63,5 @@ public class UserController {
         userRepository.save(user);
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "User updated successfully@"));
-    }
-
-    private User getUserPrincipal(UserPrincipal userPrincipal) {
-        return userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 }

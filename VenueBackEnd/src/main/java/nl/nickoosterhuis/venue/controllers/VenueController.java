@@ -13,6 +13,7 @@ import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.repositories.VenueRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
+import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,9 @@ public class VenueController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UserPrincipalHelper userPrincipalHelper;
+
     @GetMapping()
     public ResponseEntity<?> getVenues() {
         Iterable<Venue> venues = venueRepository.findAll();
@@ -60,7 +64,7 @@ public class VenueController {
 
         Role role = roleRepository.findByRoleName("VENUE");
 
-        User registeredUser = getUserPrincipal(userPrincipal);
+        User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         registeredUser.setRoles(Collections.singletonList(role));
         userRepository.save(registeredUser);
@@ -88,7 +92,7 @@ public class VenueController {
     @PutMapping
     @PreAuthorize("hasRole('ROLE_VENUE')")
     public ResponseEntity<?> putVenue(@Valid @RequestBody UpdateVenueRequest venueRequest, @CurrentUser UserPrincipal userPrincipal) {
-        User currentUser = getUserPrincipal(userPrincipal);
+        User currentUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         Venue venue = venueRepository.findByUser(currentUser)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "user_id", userPrincipal.getId()));
@@ -105,8 +109,5 @@ public class VenueController {
         return ResponseEntity.accepted().body(new ApiResponse(true, "Venue updated successfully@"));
     }
 
-    private User getUserPrincipal(UserPrincipal userPrincipal) {
-        return userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
-    }
+
 }

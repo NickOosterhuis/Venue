@@ -113,6 +113,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         "/venue/**",
                         "/venue",
+                        "/event/**",
+                        "/event/",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",

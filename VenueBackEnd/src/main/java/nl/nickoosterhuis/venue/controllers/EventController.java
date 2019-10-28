@@ -13,6 +13,7 @@ import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.repositories.VenueRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
+import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,9 @@ public class EventController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserPrincipalHelper userPrincipalHelper;
+
     @GetMapping()
     public ResponseEntity<?> getEvents() {
         Iterable<Event> events = eventRepository.findAll();
@@ -51,13 +55,13 @@ public class EventController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_VENUE')")
+    //@PreAuthorize("hasRole('ROLE_VENUE')")
     public ResponseEntity<?> postVenue(@Valid @RequestBody EventRequest eventRequest, @CurrentUser UserPrincipal userPrincipal) {
         if(eventRepository.existsByTitle(eventRequest.getTitle())) {
             throw new BadRequestException("Event name already in use.");
         }
 
-        User registeredUser = getUserPrincipal(userPrincipal);
+        User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
@@ -87,7 +91,7 @@ public class EventController {
             throw new BadRequestException("Event name already in use.");
         }
 
-        User registeredUser = getUserPrincipal(userPrincipal);
+        User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));;
 
@@ -109,28 +113,23 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_VENUE')")
+    //@PreAuthorize("hasRole('ROLE_VENUE')")
     public ResponseEntity<?> deleteEvent(@Valid @RequestBody UpdateEventRequest eventRequest, @PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
-        User registeredUser = getUserPrincipal(userPrincipal);
+        User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));;
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        ;
 
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
 
-        if(!registeredVenue.getId().equals(event.getVenue().getId()))
+        if (!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
 
         eventRepository.delete(event);
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "Event deleted successfully@"));
 
-    }
-
-
-    private User getUserPrincipal(UserPrincipal userPrincipal) {
-        return userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 }
