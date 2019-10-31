@@ -34,4 +34,6 @@ public class UpdateEventRequest {
 
     @NotBlank
     private String country;
+
+    private Double payment;
 }

@@ -70,6 +70,9 @@ public class EventController {
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue not found"));
 
+        if (eventRequest.getStartDateAndTime().isAfter(eventRequest.getEndDateAndTime()))
+            throw new BadRequestException("The start date of the event is above the end date of the event");
+
         Event event = convertToEntity(eventRequest);
         event.setVenue(registeredVenue);
 
@@ -86,7 +89,12 @@ public class EventController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_VENUE')")
     public ResponseEntity<?> putEvent(@Valid @RequestBody UpdateEventRequest eventRequest, @PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
-        if(eventRepository.existsByTitle(eventRequest.getTitle())) {
+
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
+
+
+        if(!event.getTitle().equals(eventRequest.getTitle()) && eventRepository.existsByTitle(eventRequest.getTitle())) {
             throw new BadRequestException("Event name already in use.");
         }
 
@@ -94,8 +102,10 @@ public class EventController {
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));;
 
-        Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
+        if (eventRequest.getStartDateAndTime().isAfter(eventRequest.getEndDateAndTime()))
+            throw new BadRequestException("The start date of the event is above the end date of the event");
+
+
 
         if(!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
@@ -109,6 +119,7 @@ public class EventController {
         event.setTitle(eventRequest.getTitle());
         event.setEndDateAndTime(eventRequest.getEndDateAndTime());
         event.setStartDateAndTime(eventRequest.getStartDateAndTime());
+        event.setPayment(eventRequest.getPayment());
 
         eventRepository.save(event);
 
@@ -140,10 +151,6 @@ public class EventController {
     }
 
     private Event convertToEntity(EventRequest eventRequest) {
-        return modelMapper.map(eventRequest, Event.class);
-    }
-
-    private Event convertToEntity(UpdateEventRequest eventRequest) {
         return modelMapper.map(eventRequest, Event.class);
     }
 }

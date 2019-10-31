@@ -17,10 +17,8 @@ public class EventRequest {
     @NotBlank
     private String description;
 
-    //@NotBlank
     private OffsetDateTime startDateAndTime;
 
-    //s@NotBlank
     private OffsetDateTime endDateAndTime;
 
     @NotBlank
@@ -37,4 +35,6 @@ public class EventRequest {
 
     @NotBlank
     private String country;
+
+    private Double payment;
 }

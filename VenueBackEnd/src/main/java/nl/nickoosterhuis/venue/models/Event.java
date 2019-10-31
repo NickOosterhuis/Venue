@@ -58,4 +58,6 @@ public class Event {
 
     @Column(nullable = false)
     private String country;
+    
+    private Double payment;
 }

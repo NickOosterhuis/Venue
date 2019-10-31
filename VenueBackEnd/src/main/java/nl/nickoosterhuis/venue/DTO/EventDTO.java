@@ -31,4 +31,6 @@ public class EventDTO {
     private String state;
     @NotBlank
     private String country;
+
+    private Double payment;
 }
