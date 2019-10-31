@@ -1,5 +1,7 @@
 package nl.nickoosterhuis.venue.controllers;
 
+import nl.nickoosterhuis.venue.DTO.UserDTO;
+import nl.nickoosterhuis.venue.DTO.VenueDTO;
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
 import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.Role;
@@ -14,6 +16,7 @@ import nl.nickoosterhuis.venue.repositories.VenueRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
 import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/venue")
@@ -41,10 +46,15 @@ public class VenueController {
     @Autowired
     private UserPrincipalHelper userPrincipalHelper;
 
+    private static ModelMapper modelMapper = new ModelMapper();
+
     @GetMapping()
     public ResponseEntity<?> getVenues() {
         Iterable<Venue> venues = venueRepository.findAll();
-        return new ResponseEntity<>(venues, HttpStatus.OK);
+        List<VenueDTO> venueDto = new ArrayList<>();
+
+        venues.forEach(v -> venueDto.add(convertToDTO(v)));
+        return new ResponseEntity<>(venueDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -52,7 +62,7 @@ public class VenueController {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
 
-        return new ResponseEntity<>(venue, HttpStatus.OK);
+        return new ResponseEntity<>(convertToDTO(venue), HttpStatus.OK);
     }
 
     @PostMapping
@@ -109,5 +119,8 @@ public class VenueController {
         return ResponseEntity.accepted().body(new ApiResponse(true, "Venue updated successfully@"));
     }
 
-
+    private VenueDTO convertToDTO(Venue venue) {
+        VenueDTO venueDto = modelMapper.map(venue, VenueDTO.class);
+        return venueDto;
+    }
 }

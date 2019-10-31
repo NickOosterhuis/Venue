@@ -1,8 +1,6 @@
 package nl.nickoosterhuis.venue.util;
 
-import nl.nickoosterhuis.venue.models.AuthProvider;
 import nl.nickoosterhuis.venue.models.Role;
-import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.Arrays;
 
 @Service
 @Transactional

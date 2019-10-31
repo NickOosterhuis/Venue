@@ -1,5 +1,6 @@
 package nl.nickoosterhuis.venue.controllers;
 
+import nl.nickoosterhuis.venue.DTO.EventDTO;
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
 import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.Event;
@@ -9,11 +10,11 @@ import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.EventRequest;
 import nl.nickoosterhuis.venue.payload.UpdateEventRequest;
 import nl.nickoosterhuis.venue.repositories.EventRepository;
-import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.repositories.VenueRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
 import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/event")
@@ -35,15 +38,17 @@ public class EventController {
     private VenueRepository venueRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserPrincipalHelper userPrincipalHelper;
+
+    private static ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping()
     public ResponseEntity<?> getEvents() {
         Iterable<Event> events = eventRepository.findAll();
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        List<EventDTO> eventDTOs = new ArrayList<>();
+
+        events.forEach(e -> eventDTOs.add(convertToDto(e)));
+        return new ResponseEntity<>(eventDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -51,7 +56,7 @@ public class EventController {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", id));
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(convertToDto(event), HttpStatus.OK);
     }
 
     @PostMapping
@@ -63,20 +68,10 @@ public class EventController {
 
         User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Venue not found"));
 
-        Event event = new Event();
-        event.setTitle(eventRequest.getTitle());
-        event.setDescription(eventRequest.getDescription());
-        event.setCountry(eventRequest.getCountry());
-        event.setPostalCode(eventRequest.getPostalCode());
-        event.setHouseNumber(eventRequest.getHouseNumber());
-        event.setState(eventRequest.getState());
-        event.setStreetName(eventRequest.getStreetName());
-        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
-        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
+        Event event = convertToEntity(eventRequest);
         event.setVenue(registeredVenue);
-
 
         Event result = eventRepository.save(event);
 
@@ -105,15 +100,7 @@ public class EventController {
         if(!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
 
-        event.setPostalCode(eventRequest.getPostalCode());
-        event.setStreetName(eventRequest.getStreetName());
-        event.setState(eventRequest.getState());
-        event.setHouseNumber(eventRequest.getHouseNumber());
-        event.setCountry(eventRequest.getCountry());
-        event.setDescription(eventRequest.getDescription());
-        event.setTitle(eventRequest.getTitle());
-        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
-        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
+        event = convertToEntity(eventRequest);
 
         eventRepository.save(event);
 
@@ -138,6 +125,17 @@ public class EventController {
         eventRepository.delete(event);
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "Event deleted successfully@"));
+    }
 
+    private EventDTO convertToDto(Event event) {
+        return modelMapper.map(event, EventDTO.class);
+    }
+
+    private Event convertToEntity(EventRequest eventRequest) {
+        return modelMapper.map(eventRequest, Event.class);
+    }
+
+    private Event convertToEntity(UpdateEventRequest eventRequest) {
+        return modelMapper.map(eventRequest, Event.class);
     }
 }

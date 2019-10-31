@@ -1,6 +1,8 @@
 package nl.nickoosterhuis.venue.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +53,4 @@ public class AppProperties {
     public OAuth2 getOauth2() {
         return oauth2;
     }
-
-    }
+}

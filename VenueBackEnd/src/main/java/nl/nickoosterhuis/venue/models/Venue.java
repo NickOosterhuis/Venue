@@ -20,7 +20,6 @@ public class Venue {
     private String id;
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

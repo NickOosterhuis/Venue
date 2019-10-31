@@ -1,7 +1,7 @@
 package nl.nickoosterhuis.venue.controllers;
 
+import nl.nickoosterhuis.venue.DTO.UserDTO;
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
-import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.UpdateAccountRequest;
@@ -10,8 +10,8 @@ import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
 import nl.nickoosterhuis.venue.util.UserPrincipalHelper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +32,13 @@ public class UserController {
     @Autowired
     private UserPrincipalHelper userPrincipalHelper;
 
+    private static ModelMapper modelMapper = new ModelMapper();
+
     @GetMapping("/me")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
-    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
-        return userPrincipalHelper.getUserPrincipal(userPrincipal);
+    public UserDTO getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
+        return convertToDTO(user);
     }
 
     @PutMapping("/profilePicture")
@@ -45,6 +48,8 @@ public class UserController {
 
         user.setProfilePictureUrl(updateProfilePictureRequest.getImageUrl());
         userRepository.save(user);
+
+
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "Profile picture updated successfully@"));
 
@@ -63,5 +68,10 @@ public class UserController {
         userRepository.save(user);
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "User updated successfully@"));
+    }
+
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return userDTO;
     }
 }

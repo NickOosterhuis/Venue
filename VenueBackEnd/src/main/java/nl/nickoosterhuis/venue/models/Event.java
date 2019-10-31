@@ -35,6 +35,7 @@ public class Event {
     private String title;
 
     @Column(nullable = false)
+    @Lob
     private String description;
 
     @Column(nullable = false)
