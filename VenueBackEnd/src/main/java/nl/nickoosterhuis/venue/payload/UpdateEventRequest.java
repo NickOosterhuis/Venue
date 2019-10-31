@@ -16,10 +16,8 @@ public class UpdateEventRequest {
     @NotBlank
     private String description;
 
-    @NotBlank
     private OffsetDateTime startDateAndTime;
 
-    @NotBlank
     private OffsetDateTime endDateAndTime;
 
     @NotBlank

@@ -100,7 +100,15 @@ public class EventController {
         if(!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
 
-        event = convertToEntity(eventRequest);
+        event.setPostalCode(eventRequest.getPostalCode());
+        event.setStreetName(eventRequest.getStreetName());
+        event.setState(eventRequest.getState());
+        event.setHouseNumber(eventRequest.getHouseNumber());
+        event.setCountry(eventRequest.getCountry());
+        event.setDescription(eventRequest.getDescription());
+        event.setTitle(eventRequest.getTitle());
+        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
+        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
 
         eventRepository.save(event);
 
@@ -108,8 +116,8 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ROLE_VENUE')")
-    public ResponseEntity<?> deleteEvent(@Valid @RequestBody UpdateEventRequest eventRequest, @PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
+    @PreAuthorize("hasRole('ROLE_VENUE')")
+    public ResponseEntity<?> deleteEvent(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
         User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
