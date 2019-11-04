@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import { EventListComponent } from './event-list/event-list.component';
+import { EventListComponent } from './components/event-list/event-list.component';
 import {
   MatButtonModule,
   MatCardModule, MatDialogModule, MatGridListModule,
@@ -15,13 +15,13 @@ import {
   MatMenuModule, MatProgressSpinnerModule, MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
-import { LoginComponent } from './login/login.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { HeaderComponent } from './navigation/header/header.component';
+import { LoginComponent } from './components/login/login.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { HeaderComponent } from './components/navigation/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { LogoComponent } from './navigation/logo/logo.component';
-import { RegisterComponent } from './register/register.component';
+import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { LogoComponent } from './components/navigation/logo/logo.component';
+import { RegisterComponent } from './components/register/register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 

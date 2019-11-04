@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoginComponent} from '../../login/login.component';
 import {MatDialog} from '@angular/material';
-import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {AuthenticationService} from '../../../services/authentication/authentication.service';
 import {Router} from '@angular/router';
 
 @Component({
