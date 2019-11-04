@@ -11,26 +11,21 @@ import {UserService} from '../../services/users/user.service';
 })
 export class EventListComponent implements OnInit {
   events: Array<any>;
-  currentUser: User;
   user: User;
 
   constructor(private eventService: EventService,
               private authService: AuthenticationService,
-              private  userService: UserService) {
-    this.currentUser = this.authService.currentUserValue;
-
-    //console.log(this.currentUser)
-  }
+              private  userService: UserService) {}
 
   ngOnInit() {
     this.eventService.getEvents().subscribe(data => {
       this.events = data;
     });
 
-    this.userService.getOwnProfile().subscribe(data => {
-      console.log(data);
-      this.user = data;
-    });
+    // this.userService.getOwnProfile().subscribe(data => {
+    //   console.log(data);
+    //   this.user = data;
+    // });
   }
 
 }
