@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {RegisterComponent} from '../register/register.component';
 import {FormControl, Validators} from '@angular/forms';
+import {AuthenticationService} from '../services/authentication/authentication.service';
 
 
 @Component({
@@ -10,6 +11,10 @@ import {FormControl, Validators} from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  email = '';
+  password = '';
+  invalidLogin = false;
+
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -22,7 +27,8 @@ export class LoginComponent implements OnInit {
 
   constructor( public dialog: MatDialog,
                public dialogLoginRef: MatDialogRef<LoginComponent>,
-               @Inject(MAT_DIALOG_DATA) public data: any) {}
+               @Inject(MAT_DIALOG_DATA) public data: any,
+               private authService: AuthenticationService) {}
 
   onRegisterClicked(): void {
     const dialogRegisterRef = this.dialog.open(RegisterComponent, {
@@ -39,6 +45,14 @@ export class LoginComponent implements OnInit {
 
   onLoginClicked(): void {
     console.log('login clicked');
+    this.authService.login(this.email, this.password).subscribe(
+      data => {
+        this.dialogLoginRef.close(),
+        this.invalidLogin = false;
+      }, error => {
+        this.invalidLogin = true;
+      }
+    );
   }
 
   onFacebookLoginClicked(): void {

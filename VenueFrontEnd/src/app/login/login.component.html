@@ -17,7 +17,7 @@
     </div>
     <div fxLayout="column" fxLayout.sm="row">
         <mat-form-field>
-          <input matInput [formControl]="emailFormControl" type="email" name="email" placeholder="Email" required>
+          <input matInput [formControl]="emailFormControl" [(ngModel)]="email" type="email" name="email" placeholder="Email" required>
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
             Please enter a valid email address
           </mat-error>
@@ -26,11 +26,13 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput [formControl]="passwordFormControl" type="password" name="password" placeholder="Password" required>
+          <input matInput [formControl]="passwordFormControl" [(ngModel)]="password" type="password" name="password" placeholder="Password" required>
           <mat-error *ngIf="passwordFormControl.hasError('required')">
             Password is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+      <mat-error *ngIf="invalidLogin">Email or Password not valid</mat-error>
+
     </div>
   </div>
 
