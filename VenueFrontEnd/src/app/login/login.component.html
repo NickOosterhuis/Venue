@@ -15,7 +15,7 @@
     <div fxLayout="column">
       <mat-divider></mat-divider>
     </div>
-    <div fxLayout="column" fxLayout.sm="row" fx>
+    <div fxLayout="column" fxLayout.sm="row">
         <mat-form-field>
           <input matInput [formControl]="emailFormControl" type="email" name="email" placeholder="Email" required>
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">

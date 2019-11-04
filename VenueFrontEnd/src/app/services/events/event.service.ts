@@ -10,6 +10,6 @@ export class EventService {
   constructor(private http: HttpClient) { }
 
   getEvents(): Observable<any> {
-    return this.http.get('//localhost:8080/event');
+    return this.http.get('http://localhost:8080/event');
   }
 }
