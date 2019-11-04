@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {EventService} from '../../services/events/event.service';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-event-list',
@@ -9,13 +10,17 @@ import {AuthenticationService} from '../../services/authentication/authenticatio
 })
 export class EventListComponent implements OnInit {
   events: Array<any>;
+  currentUser: User;
 
-  constructor(private eventService: EventService, private authService: AuthenticationService) { }
+  constructor(private eventService: EventService, private authService: AuthenticationService) {
+    this.currentUser = this.authService.currentUserValue;
+  }
+
+  getOwnProfile() {
+
+  }
 
   ngOnInit() {
-
-    console.log('is user logged in? : ' + this.authService.isUserLoggedIn());
-
     this.eventService.getEvents().subscribe(data => {
       this.events = data;
     });

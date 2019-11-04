@@ -1,11 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, Validators} from '@angular/forms';
 import {User} from '../../models/user';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
 import {AlertService} from '../../services/alerts/alert.service';
 import {error} from 'util';
 import {Constants} from '../../constants';
+import {LoginComponent} from '../login/login.component';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
     Validators.required,
   ]);
 
-  constructor(public dialogRef: MatDialogRef<RegisterComponent>,
+  constructor(public dialog: MatDialog,
+              public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private authService: AuthenticationService,
               private alertService: AlertService) {}
@@ -43,6 +45,16 @@ export class RegisterComponent implements OnInit {
       ),
       error => this.alertService.error(Constants.USER_ALREADY_EXISTS)
     );
+  }
+
+  onLoginClicked(): void {
+    const dialogRegisterRef = this.dialog.open(LoginComponent, {
+      width: '1000px',
+      data: {}
+    });
+
+    dialogRegisterRef.afterClosed().subscribe();
+    this.dialogRef.close();
   }
 
   ngOnInit() {

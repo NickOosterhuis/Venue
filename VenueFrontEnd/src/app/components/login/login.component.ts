@@ -16,6 +16,7 @@ import {Constants} from '../../constants';
 })
 export class LoginComponent implements OnInit {
   user = new User();
+  currentUser: User;
   invalidLogin = false;
 
   emailFormControl = new FormControl('', [
@@ -31,7 +32,9 @@ export class LoginComponent implements OnInit {
                public dialogLoginRef: MatDialogRef<LoginComponent>,
                @Inject(MAT_DIALOG_DATA) public data: any,
                private authService: AuthenticationService,
-               private alertService: AlertService) {}
+               private alertService: AlertService) {
+    this.currentUser = this.authService.currentUserValue;
+  }
 
   onRegisterClicked(): void {
     const dialogRegisterRef = this.dialog.open(RegisterComponent, {
@@ -46,10 +49,8 @@ export class LoginComponent implements OnInit {
   onLoginClicked(): void {
     this.authService.login(this.user.email, this.user.password).subscribe(
       data => {
-        this.dialogLoginRef.close(),
-        this.invalidLogin = false;
+        this.dialogLoginRef.close()
       }, error => {
-        this.invalidLogin = true;
         this.alertService.error(Constants.WRONG_EMAIL_OR_PASSWORD)
       }
     );
