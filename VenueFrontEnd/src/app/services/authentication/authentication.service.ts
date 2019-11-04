@@ -32,7 +32,7 @@ export class AuthenticationService {
     return !(user === null);
   }
 
-  logOut(): void {
+  logout(): void {
     sessionStorage.removeItem('email');
   }
 }
