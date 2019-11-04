@@ -32,8 +32,11 @@ export class RegisterComponent implements OnInit {
 
   onRegisterClicked(): void {
     console.log('Register clicked');
-    this.authService.register(this.user).subscribe();
-    this.authService.login(this.user.email, this.user.password).subscribe(this.dialogRef.close());
+    this.authService.register(this.user).subscribe(
+      this.authService.login(this.user.email, this.user.password).subscribe(
+        this.dialogRef.close()
+      )
+    );
   }
 
   ngOnInit() {
