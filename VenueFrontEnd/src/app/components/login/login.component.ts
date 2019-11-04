@@ -5,6 +5,8 @@ import {FormControl, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
 import {User} from '../../models/user';
 import {Router} from '@angular/router';
+import {AlertService} from '../../services/alerts/alert.service';
+import {Constants} from '../../constants';
 
 
 @Component({
@@ -28,7 +30,8 @@ export class LoginComponent implements OnInit {
   constructor( public dialog: MatDialog,
                public dialogLoginRef: MatDialogRef<LoginComponent>,
                @Inject(MAT_DIALOG_DATA) public data: any,
-               private authService: AuthenticationService) {}
+               private authService: AuthenticationService,
+               private alertService: AlertService) {}
 
   onRegisterClicked(): void {
     const dialogRegisterRef = this.dialog.open(RegisterComponent, {
@@ -36,21 +39,18 @@ export class LoginComponent implements OnInit {
       data: {}
     });
 
-    dialogRegisterRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-
+    dialogRegisterRef.afterClosed().subscribe();
     this.dialogLoginRef.close();
   }
 
   onLoginClicked(): void {
-    console.log('login clicked');
     this.authService.login(this.user.email, this.user.password).subscribe(
       data => {
         this.dialogLoginRef.close(),
         this.invalidLogin = false;
       }, error => {
         this.invalidLogin = true;
+        this.alertService.error(Constants.WRONG_EMAIL_OR_PASSWORD)
       }
     );
   }

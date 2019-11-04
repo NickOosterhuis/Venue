@@ -24,6 +24,7 @@ import { LogoComponent } from './components/navigation/logo/logo.component';
 import { RegisterComponent } from './components/register/register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SidenavListComponent,
     LogoComponent,
     RegisterComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

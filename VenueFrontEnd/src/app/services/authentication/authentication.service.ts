@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {User} from '../../models/user';
+import {Constants} from '../../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  baseUrl = 'http://localhost:8080/';
-
   constructor(private httpClient: HttpClient) { }
 
   login(email: string, password: string): any {
-    return this.httpClient.post<any>(this.baseUrl + 'auth/login', {email, password}).pipe(
+    return this.httpClient.post<any>(Constants.API_BASE_URL + Constants.API_LOGIN, {email, password}).pipe(
       map(
         userData => {
           sessionStorage.setItem('email', email);
@@ -24,7 +23,7 @@ export class AuthenticationService {
   }
 
   register(user: User): any {
-    return this.httpClient.post<any>(this.baseUrl + 'auth/signup', user);
+    return this.httpClient.post<any>(Constants.API_BASE_URL + Constants.API_REGISTER, user);
   }
 
   isUserLoggedIn(): boolean {
