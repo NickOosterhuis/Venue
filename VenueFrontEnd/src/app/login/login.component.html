@@ -1,0 +1,40 @@
+
+  <h1 mat-dialog-title>Login</h1>
+  <div mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.sm="row">
+      <button mat-button (click)="onFacebookLoginClicked()">
+        <img src="https://img.icons8.com/color/48/000000/facebook.png" width="32px" height="32px">
+        Login with Facebook
+      </button>
+      <button mat-button (click)="onGoogleLoginClicked()">
+        <img src="https://img.icons8.com/color/48/000000/google-logo.png" width="32px" height="32px">
+        Login with Google
+      </button>
+    </div>
+    <div fxLayout="column">
+      <mat-divider></mat-divider>
+    </div>
+    <div fxLayout="column" fxLayout.sm="row" fx>
+        <mat-form-field>
+          <input matInput [formControl]="emailFormControl" type="email" name="email" placeholder="Email" required>
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [formControl]="passwordFormControl" type="password" name="password" placeholder="Password" required>
+          <mat-error *ngIf="passwordFormControl.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+    </div>
+  </div>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-button (click)="onLoginClicked()">Login</button>
+  <button mat-button (click)="onRegisterClicked()">Register</button>
+</div>

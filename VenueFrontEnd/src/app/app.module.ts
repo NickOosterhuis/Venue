@@ -6,12 +6,36 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { EventListComponent } from './event-list/event-list.component';
-import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule, MatDialogModule, MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule, MatProgressSpinnerModule, MatSidenavModule,
+  MatToolbarModule
+} from '@angular/material';
+import { LoginComponent } from './login/login.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { HeaderComponent } from './navigation/header/header.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { LogoComponent } from './navigation/logo/logo.component';
+import { RegisterComponent } from './register/register.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventListComponent
+    EventListComponent,
+    LoginComponent,
+    NavigationComponent,
+    HeaderComponent,
+    SidenavListComponent,
+    LogoComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +46,17 @@ import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolba
     MatCardModule,
     MatInputModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule,
+    MatSidenavModule,
+    FlexLayoutModule,
+    FormsModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    MatGridListModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
