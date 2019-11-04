@@ -9,10 +9,11 @@
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
+
+      <li *ngIf="!isLoggedIn">
         <a (click)="openLoginDialog()">Login</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn">
         <a (click)="logout()">Logout</a>
       </li>
     </ul>
