@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {RegisterComponent} from '../register/register.component';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication/authentication.service';
+import {User} from '../models/user';
 
 
 @Component({
@@ -11,8 +12,7 @@ import {AuthenticationService} from '../services/authentication/authentication.s
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email = '';
-  password = '';
+  user = new User();
   invalidLogin = false;
 
   emailFormControl = new FormControl('', [
@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   passwordFormControl = new FormControl('', [
     Validators.required,
   ]);
-
 
   constructor( public dialog: MatDialog,
                public dialogLoginRef: MatDialogRef<LoginComponent>,
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   onLoginClicked(): void {
     console.log('login clicked');
-    this.authService.login(this.email, this.password).subscribe(
+    this.authService.login(this.user.email, this.user.password).subscribe(
       data => {
         this.dialogLoginRef.close(),
         this.invalidLogin = false;

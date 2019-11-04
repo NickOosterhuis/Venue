@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoginComponent} from '../../login/login.component';
 import {MatDialog} from '@angular/material';
+import {AuthenticationService} from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,8 @@ export class HeaderComponent implements OnInit {
 
   @Output() public sidenavToggle = new EventEmitter();
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private authService: AuthenticationService) { }
 
   ngOnInit() {
   }
@@ -29,5 +31,10 @@ export class HeaderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  logout(): void {
+    this.authService.logOut();
+    console.log('User Logged out');
   }
 }

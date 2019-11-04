@@ -1,3 +1,7 @@
 export class User {
-  constructor(status: string) {}
+  name: string;
+  email: string;
+  password: string;
+
+  constructor() {}
 }
