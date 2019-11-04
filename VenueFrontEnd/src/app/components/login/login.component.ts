@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {RegisterComponent} from '../register/register.component';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
-import {User} from '../../models/user';
+import {User} from '../../models/responses/user';
 import {Router} from '@angular/router';
 import {AlertService} from '../../services/alerts/alert.service';
 import {Constants} from '../../constants';
@@ -15,9 +15,8 @@ import {Constants} from '../../constants';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user = new User();
-  currentUser: User;
-  invalidLogin = false;
+  email: string;
+  password:string;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -32,9 +31,7 @@ export class LoginComponent implements OnInit {
                public dialogLoginRef: MatDialogRef<LoginComponent>,
                @Inject(MAT_DIALOG_DATA) public data: any,
                private authService: AuthenticationService,
-               private alertService: AlertService) {
-    this.currentUser = this.authService.currentUserValue;
-  }
+               private alertService: AlertService) {}
 
   onRegisterClicked(): void {
     const dialogRegisterRef = this.dialog.open(RegisterComponent, {
@@ -47,7 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginClicked(): void {
-    this.authService.login(this.user.email, this.user.password).subscribe(
+    this.authService.login(this.email, this.password).subscribe(
       data => {
         this.dialogLoginRef.close()
       }, error => {

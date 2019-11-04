@@ -7,6 +7,8 @@ export class Constants {
 
   public static get API_REGISTER(): string { return  '/auth/signup'; }
 
+  public static get API_USER_ME(): string { return '/user/me';}
+
   // ALERT MESSAGES
   public static get WRONG_EMAIL_OR_PASSWORD(): string { return  'Wrong email or password'; }
 

@@ -1,7 +1,7 @@
-import { ErrorInteceptor } from './error-inteceptor';
+import { ErrorInterceptor } from './error-interceptor';
 
 describe('ErrorInteceptor', () => {
   it('should create an instance', () => {
-    expect(new ErrorInteceptor()).toBeTruthy();
+    expect(new ErrorInterceptor()).toBeTruthy();
   });
 });

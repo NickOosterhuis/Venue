@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { EventListComponent } from './components/event-list/event-list.component';
 import {
   MatButtonModule,
@@ -25,6 +25,8 @@ import { RegisterComponent } from './components/register/register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertComponent } from './components/alert/alert.component';
+import {JwtInterceptor} from './services/authentication/jwt-inteceptor';
+import {ErrorInterceptor} from './services/authentication/error-interceptor';
 
 
 @NgModule({
@@ -60,7 +62,10 @@ import { AlertComponent } from './components/alert/alert.component';
     MatGridListModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

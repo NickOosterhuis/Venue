@@ -4,7 +4,6 @@ import {FormControl, Validators} from '@angular/forms';
 import {User} from '../../models/user';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
 import {AlertService} from '../../services/alerts/alert.service';
-import {error} from 'util';
 import {Constants} from '../../constants';
 import {LoginComponent} from '../login/login.component';
 
