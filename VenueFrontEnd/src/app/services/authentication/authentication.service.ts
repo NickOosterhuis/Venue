@@ -50,8 +50,6 @@ export class AuthenticationService {
   }
 
   isUserLoggedIn(): boolean {
-    console.log(this.currentUserSubject.value)
-
     return !(this.currentUserSubject.value === null);
   }
 

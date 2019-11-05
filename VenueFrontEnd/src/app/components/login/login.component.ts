@@ -56,14 +56,11 @@ export class LoginComponent implements OnInit {
   }
 
   onFacebookLoginClicked(): void {
-    console.log('Facebook login clicked');
-
-    console.log(Constants.FACEBOOK_AUTH_URL);
     this.document.location.href = Constants.FACEBOOK_AUTH_URL;
   }
 
   onGoogleLoginClicked(): void {
-    console.log('Google login clicked');
+    this.document.location.href = Constants.GOOGLE_AUTH_URL;
   }
 
   ngOnInit() {

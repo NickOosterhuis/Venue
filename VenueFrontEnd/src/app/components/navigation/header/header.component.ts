@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoginComponent} from '../../login/login.component';
 import {MatDialog} from '@angular/material';
 import {AuthenticationService} from '../../../services/authentication/authentication.service';
@@ -11,16 +11,18 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  isLoggedIn: boolean = this.authService.isUserLoggedIn();
+  isLoggedIn: boolean = this.authService.currentUserValue;
 
   @Output() public sidenavToggle = new EventEmitter();
 
   constructor(public dialog: MatDialog,
               private authService: AuthenticationService) {
-    this.isLoggedIn = this.authService.isUserLoggedIn();
+    this.isLoggedIn = this.authService.currentUserValue;
   }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.currentUserValue;
+    console.log(this.isLoggedIn)
   }
 
   public onToggleSidenav(): void {
@@ -35,13 +37,13 @@ export class HeaderComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.isLoggedIn = this.authService.isUserLoggedIn();
+      this.isLoggedIn = this.authService.currentUserValue
     });
   }
 
   logout(): void {
     this.authService.logout();
-    this.isLoggedIn = this.authService.isUserLoggedIn();
+    this.isLoggedIn = this.authService.currentUserValue
     console.log('User Logged out');
   }
 }
