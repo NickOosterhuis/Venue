@@ -27,6 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertComponent } from './components/alert/alert.component';
 import {JwtInterceptor} from './services/authentication/jwt-inteceptor';
 import {ErrorInterceptor} from './services/authentication/error-interceptor';
+import { OAuthRedirectHandlerComponent } from './components/oauth-redirect-handler/oauth-redirect-handler.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {ErrorInterceptor} from './services/authentication/error-interceptor';
     LogoComponent,
     RegisterComponent,
     AlertComponent,
+    OAuthRedirectHandlerComponent,
   ],
   imports: [
     BrowserModule,

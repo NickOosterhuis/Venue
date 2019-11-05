@@ -7,6 +7,7 @@ import {User} from '../../models/responses/user';
 import {Router} from '@angular/router';
 import {AlertService} from '../../services/alerts/alert.service';
 import {Constants} from '../../constants';
+import {DOCUMENT} from '@angular/common';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
                public dialogLoginRef: MatDialogRef<LoginComponent>,
                @Inject(MAT_DIALOG_DATA) public data: any,
                private authService: AuthenticationService,
-               private alertService: AlertService) {}
+               private alertService: AlertService,
+               @Inject(DOCUMENT) private document: Document) {}
 
   onRegisterClicked(): void {
     const dialogRegisterRef = this.dialog.open(RegisterComponent, {
@@ -55,6 +57,9 @@ export class LoginComponent implements OnInit {
 
   onFacebookLoginClicked(): void {
     console.log('Facebook login clicked');
+
+    console.log(Constants.FACEBOOK_AUTH_URL);
+    this.document.location.href = Constants.FACEBOOK_AUTH_URL;
   }
 
   onGoogleLoginClicked(): void {

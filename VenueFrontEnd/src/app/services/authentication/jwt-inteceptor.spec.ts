@@ -1,4 +1,4 @@
-import { JwtInterceptor } from './jwt-interceptor';
+import { JwtInterceptor } from './jwt-inteceptor';
 
 describe('JwtInteceptor', () => {
   it('should create an instance', () => {

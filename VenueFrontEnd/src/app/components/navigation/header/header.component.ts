@@ -16,7 +16,9 @@ export class HeaderComponent implements OnInit {
   @Output() public sidenavToggle = new EventEmitter();
 
   constructor(public dialog: MatDialog,
-              private authService: AuthenticationService) { }
+              private authService: AuthenticationService) {
+    this.isLoggedIn = this.authService.isUserLoggedIn();
+  }
 
   ngOnInit() {
   }

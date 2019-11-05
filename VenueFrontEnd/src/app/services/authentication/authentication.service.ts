@@ -5,6 +5,7 @@ import {User} from '../../models/user';
 import {Constants} from '../../constants';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenResult} from '../../models/responses/token-result';
+import {Token} from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,16 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  loginFacebook(token: string) : any {
+    const tokenResult = new TokenResult();
+    tokenResult.accessToken = token;
+    tokenResult.tokenType = 'Bearer ';
+
+    localStorage.setItem('currentUser', JSON.stringify(tokenResult));
+    this.currentUserSubject.next(tokenResult);
+    return tokenResult;
+  }
+
   login(email: string, password: string): any {
     return this.httpClient.post<any>(Constants.API_BASE_URL + Constants.API_LOGIN, {email, password}).pipe(
       map(
@@ -30,7 +41,6 @@ export class AuthenticationService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(userToken));
           this.currentUserSubject.next(userToken);
-          console.log(userToken);
           return userToken;
         }));
   }
@@ -40,9 +50,9 @@ export class AuthenticationService {
   }
 
   isUserLoggedIn(): boolean {
-    console.log(this.currentUser)
+    console.log(this.currentUserSubject.value)
 
-    return !(this.currentUser === null);
+    return !(this.currentUserSubject.value === null);
   }
 
   logout(): void {

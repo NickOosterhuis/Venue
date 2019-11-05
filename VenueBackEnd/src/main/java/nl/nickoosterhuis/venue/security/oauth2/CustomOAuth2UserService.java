@@ -1,8 +1,11 @@
 package nl.nickoosterhuis.venue.security.oauth2;
 
 import nl.nickoosterhuis.venue.exceptions.OAuth2AuthenticationProcessingException;
+import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.AuthProvider;
+import nl.nickoosterhuis.venue.models.Role;
 import nl.nickoosterhuis.venue.models.User;
+import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.UserPrincipal;
 import nl.nickoosterhuis.venue.security.oauth2.user_info.OAuth2UserInfo;
@@ -16,6 +19,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -23,6 +27,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -66,6 +73,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setProfilePictureUrl(oAuth2UserInfo.getImageUrl());
+
+        Role role = roleRepository.findByRoleName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("Role"));;
+        user.setRoles(Collections.singletonList(role));
         return userRepository.save(user);
     }
 
