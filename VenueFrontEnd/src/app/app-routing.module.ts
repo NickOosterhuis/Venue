@@ -9,12 +9,14 @@ import {CreateVenueComponent} from './components/venue/venue-create/create-venue
 import {VenueDetailsComponent} from './components/venue/venue-details/venue-details.component';
 import {EventDetailsComponent} from './components/events/event-details/event-details.component';
 import {CreateEventComponent} from './components/events/create-event/create-event.component';
+import {ProfileComponent} from './components/profile/profile/profile.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'oauth2/redirect', component: OAuthRedirectHandlerComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'venues', component: VenueListComponent },
   { path: 'venues/create', component: CreateVenueComponent },
   { path: 'venues/details/{id}', component: VenueDetailsComponent },

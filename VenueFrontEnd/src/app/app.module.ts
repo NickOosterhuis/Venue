@@ -29,6 +29,8 @@ import {
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { NavbarItemsComponent } from './components/navigation/navbar-items/navbar-items.component';
+import { ProfileComponent } from './components/profile/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import {HttpClientModule} from '@angular/common/http';
     OAuthRedirectHandlerComponent,
     NavbarComponent,
     CreateEventComponent,
+    NavbarItemsComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
