@@ -23,7 +23,7 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  loginFacebook(token: string): any {
+  loginSocial(token: string): any {
     const tokenResult = new TokenResponse();
     tokenResult.accessToken = token;
     tokenResult.tokenType = 'Bearer ';

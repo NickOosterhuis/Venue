@@ -18,7 +18,15 @@ import { OAuthRedirectHandlerComponent } from './components/auth/oauth-redirect-
 import { NavbarComponent } from './components/navigation/navbar/navbar.component';
 import { CreateEventComponent } from './components/events/create-event/create-event.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule, MatSlideToggleModule,
+  MatStepperModule
+} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -50,6 +58,10 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

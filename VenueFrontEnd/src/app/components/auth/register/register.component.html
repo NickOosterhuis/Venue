@@ -1,1 +1,101 @@
-<p>register works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="registrationFormGroup">
+          <form [formGroup]="registrationFormGroup">
+            <ng-template matStepLabel>Register</ng-template>
+            <mat-form-field>
+              <input matInput placeholder="Display name" formControlName="nameCtrl" type="text" name="name" required>
+              <mat-error *ngIf="registrationFormGroup.get('nameCtrl').hasError('required')">
+                Display name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="E-Mail" formControlName="emailCtrl" type="email" name="email" required>
+              <mat-error *ngIf="registrationFormGroup.get('emailCtrl').hasError('required')">
+                E-Mail is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="registrationFormGroup.get('emailCtrl').hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Password" formControlName="passwordCtrl" type="password" name="password" required>
+              <mat-error *ngIf="registrationFormGroup.get('passwordCtrl').hasError('required')">
+               Password is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <div class="my-2" align="right">
+              <mat-slide-toggle formControlName="venueCtrl" (change)="onChange()">Are you a venue?</mat-slide-toggle>
+            </div>
+            <div>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step *ngIf="isVenue">
+          <ng-template matStepLabel>Venue Registration</ng-template>
+          <form [formGroup]="venueFormGroup">
+            <ng-template matStepLabel>Register</ng-template>
+            <mat-form-field>
+              <input matInput placeholder="Company name" formControlName="companyNameCtrl" type="text" name="companyName" required>
+              <mat-error *ngIf="venueFormGroup.get('companyNameCtrl').hasError('required')">
+                Display name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Street name" formControlName="streetNameCtrl" type="text" name="streetName" required>
+              <mat-error *ngIf="venueFormGroup.get('streetNameCtrl').hasError('required')">
+                Street name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="House number" formControlName="houseNumberCtrl" type="text" name="houseNumber" required>
+              <mat-error *ngIf="venueFormGroup.get('houseNumberCtrl').hasError('required')">
+                House number is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Postcode" formControlName="postalCodeCtrl" type="text" name="postalCode" required>
+              <mat-error *ngIf="venueFormGroup.get('postalCodeCtrl').hasError('required')">
+                Postcode is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Region/State/Province" formControlName="stateCtrl" type="text" name="state" required>
+              <mat-error *ngIf="venueFormGroup.get('stateCtrl').hasError('required')">
+                Password is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Country" formControlName="countryCtrl" type="text" name="houseNumber" required>
+              <mat-error *ngIf="venueFormGroup.get('countryCtrl').hasError('required')">
+                Password is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Phone number" formControlName="phoneNumberCtrl" type="text" name="phoneNumber" required>
+              <mat-error *ngIf="venueFormGroup.get('phoneNumberCtrl').hasError('required')">
+                Password is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          You are now done.
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="onRegisterClicked()">Register</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>
+
