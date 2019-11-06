@@ -51,6 +51,7 @@ export class RegisterComponent implements OnInit {
 
     console.log(user);
 
+    // TODO: auth service to post user & catching API errors
     //this.authService.register(user).subscribe();
   }
 
@@ -66,6 +67,8 @@ export class RegisterComponent implements OnInit {
     const venue = new Venue(companyName, streetName, houseNumber, postalCode, state, country, phoneNumber);
 
     console.log(venue);
+
+    // TODO: venue service to post venue & catching API errors
 }
 
 
