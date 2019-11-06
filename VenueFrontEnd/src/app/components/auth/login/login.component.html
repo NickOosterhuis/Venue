@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Sign In</h5>
+          <form class="form-signin">
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput [formControl]="emailFormControl" [(ngModel)]="email" type="email" name="email" placeholder="E-mail" required>
+                  <mat-error *ngIf="emailFormControl.hasError('email')">
+                    Please enter a valid email address
+                  </mat-error>
+                  <mat-error *ngIf="emailFormControl.hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput [formControl]="passwordFormControl" [(ngModel)]="password" type="password" name="password" placeholder="Password" required>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </form>
+          <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="onLoginClicked()">Sign in</button>
+          <p class="my-2">Don't have an account yet? <a routerLink="/register">register</a></p>
+          <hr class="my-4">
+          <button class="btn btn-block btn-social btn-google text-uppercase" (click)="onGoogleLoginClicked()"><span class="fab fa-google mr-2"></span> Sign in with Google</button>
+          <button class="btn btn-block btn-social btn-facebook text-uppercase" (click)="onFacebookLoginClicked()"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
