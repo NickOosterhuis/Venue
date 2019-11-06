@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth/auth.service';
 import {User} from '../../../models/user';
 import {Venue} from '../../../models/venue';
+import {Router} from '@angular/router';
+import {VenueService} from '../../../services/venue/venue.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +18,9 @@ export class RegisterComponent implements OnInit {
   venueFormGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private venueService: VenueService,
+              private router: Router) { }
 
   ngOnInit() {
     this.registrationFormGroup = this.formBuilder.group({
@@ -52,7 +56,7 @@ export class RegisterComponent implements OnInit {
     console.log(user);
 
     // TODO: auth service to post user & catching API errors
-    //this.authService.register(user).subscribe();
+    this.authService.register(user).subscribe();
   }
 
   registerVenue(): void {
@@ -69,6 +73,7 @@ export class RegisterComponent implements OnInit {
     console.log(venue);
 
     // TODO: venue service to post venue & catching API errors
+    this.venueService.postVenue(venue).subscribe();
 }
 
 
@@ -76,8 +81,10 @@ export class RegisterComponent implements OnInit {
     if (this.isVenue) {
       this.register();
       this.registerVenue();
+      this.router.navigate(['/events']);
     } else {
       this.register();
+      this.router.navigate(['/events']);
     }
   }
 
