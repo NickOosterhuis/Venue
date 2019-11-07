@@ -46,7 +46,7 @@
             <form [formGroup]="venueFormGroup">
               <ng-template matStepLabel>Register</ng-template>
               <mat-form-field>
-                <input matInput placeholder="Company name" formControlName="companyNameCtrl" type="text" name="companyName" (focusout)="checkIfVenueNameIsTaken(venueFormGroup.get('companyNameCtrl').value)" required>
+                <input matInput placeholder="Company name" formControlName="companyNameCtrl" type="text" name="companyName" required>
                 <mat-error *ngIf="venueFormGroup.get('companyNameCtrl').hasError('required')">
                   Company name is <strong>required</strong>
                 </mat-error>
