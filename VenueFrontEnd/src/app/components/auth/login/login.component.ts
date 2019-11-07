@@ -4,6 +4,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {Router} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
 import {Constants} from '../../../constants';
+import {ErrorResponse} from '../../../models/apiResponses/error-response';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,8 @@ import {Constants} from '../../../constants';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
+  error: ErrorResponse;
+  errorSocialLogin: string;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -28,11 +31,15 @@ export class LoginComponent implements OnInit {
               @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
+    if (history.state.data) {
+      this.errorSocialLogin = history.state.data;
+    }
   }
 
   onLoginClicked(): void {
     this.authService.login(this.email, this.password).subscribe(
-      data => this.router.navigate(['/events'])
+      data => this.router.navigate(['/events']),
+      error => this.error = error
     );
   }
 
@@ -43,5 +50,4 @@ export class LoginComponent implements OnInit {
   onGoogleLoginClicked(): void {
     this.document.location.href = Constants.GOOGLE_AUTH_URL;
   }
-
 }

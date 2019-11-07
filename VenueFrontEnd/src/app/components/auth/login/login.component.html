@@ -27,12 +27,13 @@
               </mat-form-field>
             </div>
           </form>
+          <mat-error *ngIf="error != null">{{error.message}}</mat-error>
+          <mat-error *ngIf="errorSocialLogin != null">{{errorSocialLogin}}</mat-error>
           <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="onLoginClicked()">Sign in</button>
           <p class="my-2">Don't have an account yet? <a routerLink="/register">register</a></p>
           <hr class="my-4">
           <button class="btn btn-block btn-social btn-google text-uppercase" (click)="onGoogleLoginClicked()"><span class="fab fa-google mr-2"></span> Sign in with Google</button>
           <button class="btn btn-block btn-social btn-facebook text-uppercase" (click)="onFacebookLoginClicked()"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
-
         </div>
       </div>
     </div>

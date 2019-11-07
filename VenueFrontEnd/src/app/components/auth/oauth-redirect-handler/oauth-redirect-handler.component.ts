@@ -28,8 +28,8 @@ export class OAuthRedirectHandlerComponent implements OnInit {
       this.authService.loginSocial(token)
       this.router.navigate(['/events']);
     } else {
-      console.log('some error on fb login');
-      this.router.navigate(['/events']);
+      console.log(error);
+      this.router.navigate(['/login'], {state: {data: error}});
     }
   }
 
