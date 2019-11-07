@@ -9,11 +9,11 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class LoginRequest {
-    @NotBlank
+    @NotBlank(message = "E-mail is required")
     @Email
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
     private String password;
 }
 

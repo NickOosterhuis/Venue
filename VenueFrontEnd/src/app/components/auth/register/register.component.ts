@@ -64,8 +64,6 @@ export class RegisterComponent implements OnInit {
 
     const user = new User(name, email, password);
 
-    // console.log(user);
-
     this.authService.register(user).subscribe(
       data => console.log(data),
       error => this.errorRegisterObj = error,
@@ -103,9 +101,9 @@ export class RegisterComponent implements OnInit {
 
   onRegisterClicked(): void {
     this.register();
-    // if (this.errorVenueObj == null && this.errorRegisterObj == null) {
-    //   this.router.navigate(['/events']);
-    // }
+    if (this.errorVenueObj == null && this.errorRegisterObj == null) {
+      this.router.navigate(['/events']);
+    }
   }
 
 }

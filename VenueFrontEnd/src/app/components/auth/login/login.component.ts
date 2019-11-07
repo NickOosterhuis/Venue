@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Router} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
@@ -12,36 +12,35 @@ import {ErrorResponse} from '../../../models/apiResponses/error-response';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email: string;
-  password: string;
+  loginFormGroup: FormGroup;
   error: ErrorResponse;
   errorSocialLogin: string;
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  passwordFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-
-  constructor(private authService: AuthService,
+  constructor(private formBuilder: FormBuilder,
+              private authService: AuthService,
               private router: Router,
               @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
+    this.loginFormGroup = this.formBuilder.group({
+      emailCtrl: ['', [Validators.required, Validators.email]],
+      passwordCtrl: ['', Validators.required]
+    });
+
     if (history.state.data) {
       this.errorSocialLogin = history.state.data;
     }
   }
 
   onLoginClicked(): void {
-    this.authService.login(this.email, this.password).subscribe(
+
+    const email = this.loginFormGroup.get('emailCtrl').value;
+    const password = this.loginFormGroup.get('passwordCtrl').value;
+
+    this.authService.login(email, password).subscribe(
       data => this.router.navigate(['/events']),
       error => this.error = error
     );
-
     this.errorSocialLogin = null;
   }
 
