@@ -28,9 +28,13 @@ import {
   MatStepperModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { NavbarItemsComponent } from './components/navigation/navbar-items/navbar-items.component';
 import { ProfileComponent } from './components/profile/profile/profile.component';
+import {ErrorInterceptorService} from './services/auth/interceptors/error-interceptor.service';
+import {JwtInterceptorService} from './services/auth/interceptors/jwt-interceptor.service';
+import {AuthGuardService} from './services/auth/interceptors/auth-guard.service';
+import {CanActivate} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -67,7 +71,18 @@ import { ProfileComponent } from './components/profile/profile/profile.component
     MatRadioModule,
     MatSlideToggleModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptorService,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
