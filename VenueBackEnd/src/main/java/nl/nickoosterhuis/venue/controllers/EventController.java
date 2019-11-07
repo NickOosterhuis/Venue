@@ -110,13 +110,13 @@ public class EventController {
         if(!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
 
-        event.setPostalCode(eventRequest.getPostalCode());
-        event.setStreetName(eventRequest.getStreetName());
-        event.setState(eventRequest.getState());
-        event.setHouseNumber(eventRequest.getHouseNumber());
-        event.setCountry(eventRequest.getCountry());
-        event.setDescription(eventRequest.getDescription());
-        event.setTitle(eventRequest.getTitle());
+        event.setPostalCode(eventRequest.getPostalCode().trim());
+        event.setStreetName(eventRequest.getStreetName().trim());
+        event.setState(eventRequest.getState().trim());
+        event.setHouseNumber(eventRequest.getHouseNumber().trim());
+        event.setCountry(eventRequest.getCountry().trim());
+        event.setDescription(eventRequest.getDescription().trim());
+        event.setTitle(eventRequest.getTitle().trim());
         event.setEndDateAndTime(eventRequest.getEndDateAndTime());
         event.setStartDateAndTime(eventRequest.getStartDateAndTime());
         event.setPayment(eventRequest.getPayment());

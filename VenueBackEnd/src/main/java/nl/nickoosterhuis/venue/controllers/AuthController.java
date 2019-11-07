@@ -5,6 +5,7 @@ import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.AuthProvider;
 import nl.nickoosterhuis.venue.models.Role;
 import nl.nickoosterhuis.venue.models.User;
+import nl.nickoosterhuis.venue.models.Venue;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.AuthResponse;
 import nl.nickoosterhuis.venue.payload.LoginRequest;
@@ -13,17 +14,16 @@ import nl.nickoosterhuis.venue.repositories.RoleRepository;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.oauth2.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -64,19 +64,44 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
+    @PostMapping("/checkusername")
+    public ResponseEntity<?> checkIfUserNameIsTaken(@RequestBody String name) {
+       if(userRepository.existsByName(name)) {
+           throw new BadRequestException("Username already in use.");
+        }
+
+        System.out.println(userRepository.existsByName(name));
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/checkemail")
+    public ResponseEntity<?> checkIfEmailIsTaken(@RequestBody String email) {
+        if(userRepository.existsByEmail(email)) {
+            throw new BadRequestException("Email address already in use.");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new BadRequestException("Email address already in use.");
         }
 
+        if(userRepository.existsByName(signUpRequest.getName())) {
+            throw new BadRequestException("Display name already exists");
+        }
+
         Role role = roleRepository.findByRoleName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("User", "user_id", signUpRequest.getEmail()));;
 
         // Creating user's account
         User user = new User();
-        user.setName(signUpRequest.getName());
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
+        user.setName(signUpRequest.getName().trim());
+        user.setEmail(signUpRequest.getEmail().toLowerCase().trim());
+        user.setPassword(signUpRequest.getPassword().trim());
         user.setProvider(AuthProvider.local);
         user.setRoles(Collections.singletonList(role));
 

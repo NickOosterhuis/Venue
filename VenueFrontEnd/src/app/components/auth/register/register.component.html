@@ -11,6 +11,9 @@
                 <mat-error *ngIf="registrationFormGroup.get('nameCtrl').hasError('required')">
                   Display name is <strong>required</strong>
                 </mat-error>
+                <mat-error *ngIf="registrationFormGroup.get('nameCtrl').hasError('usernameTaken')">
+                  Display name is <strong>taken</strong>
+                </mat-error>
               </mat-form-field>
               <mat-form-field>
                 <input matInput placeholder="E-Mail" formControlName="emailCtrl" type="email" name="email" required>
@@ -19,6 +22,9 @@
                 </mat-error>
                 <mat-error *ngIf="registrationFormGroup.get('emailCtrl').hasError('email')">
                   Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="registrationFormGroup.get('emailCtrl').hasError('emailTaken')">
+                  E-Mail is <strong>taken</strong>
                 </mat-error>
               </mat-form-field>
               <mat-form-field>
@@ -40,9 +46,12 @@
             <form [formGroup]="venueFormGroup">
               <ng-template matStepLabel>Register</ng-template>
               <mat-form-field>
-                <input matInput placeholder="Company name" formControlName="companyNameCtrl" type="text" name="companyName" required>
+                <input matInput placeholder="Company name" formControlName="companyNameCtrl" type="text" name="companyName" (focusout)="checkIfVenueNameIsTaken(venueFormGroup.get('companyNameCtrl').value)" required>
                 <mat-error *ngIf="venueFormGroup.get('companyNameCtrl').hasError('required')">
-                  Display name is <strong>required</strong>
+                  Company name is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="venueFormGroup.get('companyNameCtrl').hasError('companyNameTaken')">
+                  Company name is <strong>taken</strong>
                 </mat-error>
               </mat-form-field>
               <mat-form-field>
@@ -90,6 +99,8 @@
             <div class="my-2" align="center">
               <h4>All done!</h4>
               <p>You can either go back to change some values or finish up and register</p>
+              <mat-error *ngIf="errorRegisterObj">{{errorRegisterObj.message}}</mat-error>
+              <mat-error *ngIf="errorVenueObj">{{errorVenueObj.message}}</mat-error>
               <button mat-button matStepperPrevious>Back</button>
               <button mat-button (click)="onRegisterClicked()">Register</button>
             </div>

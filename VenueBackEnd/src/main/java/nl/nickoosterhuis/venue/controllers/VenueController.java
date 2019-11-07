@@ -65,6 +65,15 @@ public class VenueController {
         return new ResponseEntity<>(convertToDTO(venue), HttpStatus.OK);
     }
 
+    @PostMapping("/checkname")
+    public ResponseEntity<?> checkIfNameIsTaken(@RequestBody String name) {
+        if(venueRepository.existsByCompanyName(name)) {
+            throw new BadRequestException("Company name already in use.");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> postVenue(@Valid @RequestBody VenueRequest venueRequest, @CurrentUser UserPrincipal userPrincipal) {
@@ -80,13 +89,13 @@ public class VenueController {
         userRepository.save(registeredUser);
 
         Venue venue = new Venue();
-        venue.setCompanyName(venueRequest.getCompanyName());
-        venue.setCountry(venueRequest.getCountry());
-        venue.setPostalCode(venueRequest.getPostalCode());
-        venue.setHouseNumber(venueRequest.getHouseNumber());
-        venue.setPhoneNumber(venueRequest.getPhoneNumber());
-        venue.setState(venueRequest.getState());
-        venue.setStreetName(venueRequest.getStreetName());
+        venue.setCompanyName(venueRequest.getCompanyName().trim());
+        venue.setCountry(venueRequest.getCountry().trim());
+        venue.setPostalCode(venueRequest.getPostalCode().trim());
+        venue.setHouseNumber(venueRequest.getHouseNumber().trim());
+        venue.setPhoneNumber(venueRequest.getPhoneNumber().trim());
+        venue.setState(venueRequest.getState().trim());
+        venue.setStreetName(venueRequest.getStreetName().trim());
         venue.setUser(registeredUser);
 
         Venue result = venueRepository.save(venue);
@@ -107,12 +116,12 @@ public class VenueController {
         Venue venue = venueRepository.findByUser(currentUser)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "user_id", userPrincipal.getId()));
 
-        venue.setPostalCode(venueRequest.getPostalCode());
-        venue.setStreetName(venueRequest.getStreetName());
-        venue.setState(venueRequest.getState());
-        venue.setHouseNumber(venueRequest.getHouseNumber());
-        venue.setCountry(venueRequest.getCountry());
-        venue.setPhoneNumber(venueRequest.getPhoneNumber());
+        venue.setPostalCode(venueRequest.getPostalCode().trim());
+        venue.setStreetName(venueRequest.getStreetName().trim());
+        venue.setState(venueRequest.getState().trim());
+        venue.setHouseNumber(venueRequest.getHouseNumber().trim());
+        venue.setCountry(venueRequest.getCountry().trim());
+        venue.setPhoneNumber(venueRequest.getPhoneNumber().trim());
 
         venueRepository.save(venue);
 

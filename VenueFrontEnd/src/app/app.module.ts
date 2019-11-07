@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, NG_ASYNC_VALIDATORS, NG_VALIDATORS} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +35,9 @@ import {ErrorInterceptorService} from './services/auth/interceptors/error-interc
 import {JwtInterceptorService} from './services/auth/interceptors/jwt-interceptor.service';
 import {AuthGuardService} from './services/auth/interceptors/auth-guard.service';
 import {CanActivate} from '@angular/router';
+import {UsernameValidator} from './customvalidators/username-validator';
+import {EmailValidator} from './customvalidators/email-validator';
+import {CompanyNameValidator} from './customvalidators/company-name-validator';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,21 @@ import {CanActivate} from '@angular/router';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptorService,
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useClass: UsernameValidator,
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useClass: EmailValidator,
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useClass: CompanyNameValidator,
       multi: true
     },
   ],

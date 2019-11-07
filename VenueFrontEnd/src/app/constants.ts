@@ -7,9 +7,15 @@ export class Constants {
 
   public static get API_REGISTER(): string { return  '/auth/signup'; }
 
-  public static get API_USER_ME(): string { return '/user/me';}
+  public static get API_CHECK_EMAIL(): string { return '/auth/checkemail'; }
+
+  public static get API_CHECK_USERNAME(): string { return '/auth/checkusername'; }
+
+  public static get API_USER_ME(): string { return '/user/me'; }
 
   public static get API_VENUE(): string { return '/venue'; }
+
+  public static get API_VENUE_CHECK(): string {return '/checkname'; }
 
   public static get API_EVENT(): string { return '/event'; }
 

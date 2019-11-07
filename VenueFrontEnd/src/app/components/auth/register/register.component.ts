@@ -5,6 +5,10 @@ import {User} from '../../../models/user';
 import {Venue} from '../../../models/venue';
 import {Router} from '@angular/router';
 import {VenueService} from '../../../services/venue/venue.service';
+import {ErrorResponse} from '../../../models/apiResponses/error-response';
+import {UsernameValidator} from '../../../customvalidators/username-validator';
+import {EmailValidator} from '../../../customvalidators/email-validator';
+import {CompanyNameValidator} from '../../../customvalidators/company-name-validator';
 
 @Component({
   selector: 'app-register',
@@ -17,21 +21,28 @@ export class RegisterComponent implements OnInit {
   registrationFormGroup: FormGroup;
   venueFormGroup: FormGroup;
 
+  // API Errors
+  errorRegisterObj: ErrorResponse;
+  errorVenueObj: ErrorResponse;
+
   constructor(private formBuilder: FormBuilder,
+              private usernameValidator: UsernameValidator,
+              private emailValidator: EmailValidator,
+              private companyNameValidator: CompanyNameValidator,
               private authService: AuthService,
               private venueService: VenueService,
               private router: Router) { }
 
   ngOnInit() {
     this.registrationFormGroup = this.formBuilder.group({
-      nameCtrl: ['', Validators.required],
-      emailCtrl: ['', [Validators.required, Validators.email]],
+      nameCtrl: ['', Validators.required, this.usernameValidator.checkUsername.bind(this.usernameValidator)],
+      emailCtrl: ['', [Validators.required, Validators.email, this.emailValidator.checkEmail.bind(this.emailValidator)]],
       passwordCtrl: ['', Validators.required],
       venueCtrl: [false, Validators.required]
     });
 
     this.venueFormGroup = this.formBuilder.group( {
-      companyNameCtrl: ['', Validators.required],
+      companyNameCtrl: ['', Validators.required, this.companyNameValidator.checkCompanyName.bind(this.companyNameValidator)],
       streetNameCtrl: ['', Validators.required],
       houseNumberCtrl: ['', Validators.required],
       postalCodeCtrl: ['', Validators.required],
@@ -53,39 +64,48 @@ export class RegisterComponent implements OnInit {
 
     const user = new User(name, email, password);
 
-    console.log(user);
+    // console.log(user);
 
-    // TODO: auth service to post user & catching API errors
-    this.authService.register(user).subscribe();
+    this.authService.register(user).subscribe(
+      data => console.log(data),
+      error => this.errorRegisterObj = error,
+      next => {
+        if (this.errorRegisterObj == null) {
+          this.authService.login(user.email, user.password).subscribe(
+            () => this.registerVenue()
+          );
+        }
+      },
+    );
   }
 
   registerVenue(): void {
-    const companyName = this.venueFormGroup.get('companyNameCtrl').value;
-    const streetName = this.venueFormGroup.get('streetNameCtrl').value;
-    const houseNumber = this.venueFormGroup.get('houseNumberCtrl').value;
-    const postalCode = this.venueFormGroup.get('postalCodeCtrl').value;
-    const state = this.venueFormGroup.get('stateCtrl').value;
-    const country = this.venueFormGroup.get('countryCtrl').value;
-    const phoneNumber = this.venueFormGroup.get('phoneNumberCtrl').value;
 
-    const venue = new Venue(companyName, streetName, houseNumber, postalCode, state, country, phoneNumber);
+    console.log('this is a venue ' + this.isVenue)
 
-    console.log(venue);
+    if (this.isVenue) {
+      const companyName = this.venueFormGroup.get('companyNameCtrl').value;
+      const streetName = this.venueFormGroup.get('streetNameCtrl').value;
+      const houseNumber = this.venueFormGroup.get('houseNumberCtrl').value;
+      const postalCode = this.venueFormGroup.get('postalCodeCtrl').value;
+      const state = this.venueFormGroup.get('stateCtrl').value;
+      const country = this.venueFormGroup.get('countryCtrl').value;
+      const phoneNumber = this.venueFormGroup.get('phoneNumberCtrl').value;
 
-    // TODO: venue service to post venue & catching API errors
-    this.venueService.postVenue(venue).subscribe();
-}
+      const venue = new Venue(companyName, streetName, houseNumber, postalCode, state, country, phoneNumber);
 
+      this.venueService.postVenue(venue).subscribe(
+        data => console.log(data),
+        error => this.errorVenueObj = error,
+      );
+    }
+  }
 
   onRegisterClicked(): void {
-    if (this.isVenue) {
-      this.register();
-      this.registerVenue();
-      this.router.navigate(['/events']);
-    } else {
-      this.register();
-      this.router.navigate(['/events']);
-    }
+    this.register();
+    // if (this.errorVenueObj == null && this.errorRegisterObj == null) {
+    //   this.router.navigate(['/events']);
+    // }
   }
 
 }

@@ -111,6 +111,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/user/auth/checkusername",
+                        "/user/auth/checkemail",
                         "/venue/**",
                         "/venue",
                         "/event/**",

@@ -49,8 +49,6 @@ public class UserController {
         user.setProfilePictureUrl(updateProfilePictureRequest.getImageUrl());
         userRepository.save(user);
 
-
-
         return ResponseEntity.accepted().body(new ApiResponse(true, "Profile picture updated successfully@"));
 
     }
@@ -63,7 +61,7 @@ public class UserController {
         if (!updateAccountRequest.getNewPassword().equals(updateAccountRequest.getNewPasswordVerification()))
             throw new BadRequestException("Passwords don't match");
 
-        user.setName(updateAccountRequest.getName());
+        user.setName(updateAccountRequest.getName().trim());
         user.setPassword(passwordEncoder.encode(updateAccountRequest.getNewPassword()));
         userRepository.save(user);
 

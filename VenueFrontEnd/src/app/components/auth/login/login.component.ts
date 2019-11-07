@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit {
       data => this.router.navigate(['/events']),
       error => this.error = error
     );
+
+    this.errorSocialLogin = null;
   }
 
   onFacebookLoginClicked(): void {
