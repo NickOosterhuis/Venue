@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateUserPassword} from '../../../models/update-user-password';
 import {UserService} from '../../../services/user/user.service';
-import {User} from '../../../models/user';
 import {UserResponse} from '../../../models/apiResponses/user-response';
+import {ErrorResponse} from '../../../models/apiResponses/error-response';
 
 @Component({
   selector: 'app-update-password',
@@ -14,7 +14,8 @@ export class UpdatePasswordComponent implements OnInit {
   @Input() showMePartially: boolean;
   updatePasswordFormGroup: FormGroup;
 
-  @Input() user: UserResponse;
+  error: ErrorResponse;
+  success: string;
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder) { }
@@ -31,7 +32,10 @@ export class UpdatePasswordComponent implements OnInit {
     console.log(verificationPassword);
 
     const updatedPassword = new UpdateUserPassword(newPassword, verificationPassword);
-    this.userService.updatePassword(updatedPassword).subscribe();
+    this.userService.updatePassword(updatedPassword).subscribe(
+      data => this.success = 'Successfully changed password',
+      error => this.error = error
+    );
   }
 
   setupUpdatePasswordFormGroup(): void {

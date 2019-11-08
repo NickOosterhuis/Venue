@@ -57,7 +57,7 @@
             </mat-form-field>
           </form>
           <button class="btn btn-dark btn-sm btn-block" (click)="toggleUpdateView()">Change password</button>
-          <app-update-password [user]="user" [showMePartially]="showUpdatePassword"></app-update-password>
+          <app-update-password [showMePartially]="showUpdatePassword"></app-update-password>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-dark" (click)="modal.close(updateProfile())">Save</button>
