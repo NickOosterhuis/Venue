@@ -5,20 +5,21 @@
         <div class="card-body">
           <!-- Profile widget -->
           <div class="bg-white shadow rounded overflow-hidden">
-            <div class="px-4 pt-0 pb-4 bg-dark">
+            <div class="p-4 bg-dark">
               <div class="media align-items-end profile-header">
                 <div class="profile mr-3 my-3">
                   <img src="{{user.profilePicture}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
                   <button class="btn btn-dark btn-sm btn-block" (click)="openEditProfile(content)">Edit profile</button>
                 </div>
-                <div class="media-body mb-5 text-white">
+                <div class="media-body mb-5 p-3 text-white">
                   <h4 class="mt-0 mb-0">{{user.name}}</h4>
-                  <p class="small mb-4"> <i class="fa fa-envelope mr-2"></i>{{user.email}}</p>
+                  <p class="small mb-4"><i class="far fa-paper-plane"></i> {{user.email}}</p>
                 </div>
               </div>
             </div>
-            <div class="bg-light p-4 d-flex text-center">
-              <h2>favorite event list coming here for user</h2>
+            <div class="bg-light text-center">
+              <h2>if User -> favorite list of events</h2>
+              <h2>If Venue -> list of registered events</h2>
             </div>
           </div><!-- End profile widget -->
         </div>
