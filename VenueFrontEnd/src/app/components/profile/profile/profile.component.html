@@ -1,1 +1,69 @@
-<p>profile works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <!-- Profile widget -->
+          <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 bg-dark">
+              <div class="media align-items-end profile-header">
+                <div class="profile mr-3 my-3">
+                  <img src="{{user.profilePicture}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                  <button class="btn btn-dark btn-sm btn-block" (click)="openEditProfile(content)">Edit profile</button>
+                </div>
+                <div class="media-body mb-5 text-white">
+                  <h4 class="mt-0 mb-0">{{user.name}}</h4>
+                  <p class="small mb-4"> <i class="fa fa-envelope mr-2"></i>{{user.email}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-light p-4 d-flex text-center">
+              <h2>favorite event list coming here for user</h2>
+            </div>
+          </div><!-- End profile widget -->
+        </div>
+      </div>
+
+      <!-- EDIT MODAL -->
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Update profile</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="updateProfileFormGroup">
+            <mat-form-field>
+              <input matInput placeholder="Display name" [value]="user.name" formControlName="nameCtrl" type="text" name="name" required>
+              <mat-error *ngIf="updateProfileFormGroup.get('nameCtrl').hasError('required')">
+                Display name is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="updateProfileFormGroup.get('nameCtrl').hasError('usernameTaken')">
+                Display name is <strong>taken</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="E-Mail" [value]="user.email" formControlName="emailCtrl" type="email" name="email" required>
+              <mat-error *ngIf="updateProfileFormGroup.get('emailCtrl').hasError('required')">
+                E-Mail is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="updateProfileFormGroup.get('emailCtrl').hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="updateProfileFormGroup.get('emailCtrl').hasError('emailTaken')">
+                E-Mail is <strong>taken</strong>
+              </mat-error>
+            </mat-form-field>
+          </form>
+          <button class="btn btn-dark btn-sm btn-block" (click)="toggleUpdateView()">Change password</button>
+          <app-update-password [user]="user" [showMePartially]="showUpdatePassword"></app-update-password>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close(updateProfile())">Save</button>
+        </div>
+      </ng-template>
+      <!-- END EDIT MODAL -->
+    </div>
+  </div>
+</div>

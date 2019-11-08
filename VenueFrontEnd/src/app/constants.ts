@@ -3,6 +3,8 @@ export class Constants {
   // API URLS
   public static get API_BASE_URL(): string { return 'http://localhost:8080'; }
 
+
+  // AUTH PATHS
   public static get API_LOGIN(): string { return  '/auth/login'; }
 
   public static get API_REGISTER(): string { return  '/auth/signup'; }
@@ -11,11 +13,19 @@ export class Constants {
 
   public static get API_CHECK_USERNAME(): string { return '/auth/checkusername'; }
 
+  // USER PATHS
+
   public static get API_USER_ME(): string { return '/user/me'; }
+
+  public static get API_USER_CHANGE_PASSWORD(): string { return '/changePassword'; }
+
+  // VENUE PATHS
 
   public static get API_VENUE(): string { return '/venue'; }
 
   public static get API_VENUE_CHECK(): string {return '/checkname'; }
+
+  // EVENT PATHS
 
   public static get API_EVENT(): string { return '/event'; }
 

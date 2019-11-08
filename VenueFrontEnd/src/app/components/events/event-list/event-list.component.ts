@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from '../../../services/user/user.service';
-import {Profile} from '../../../models/profile';
 import {ErrorResponse} from '../../../models/apiResponses/error-response';
-import {UserResponse} from '../../../models/apiResponses/user-response';
 import {EventResponse} from '../../../models/apiResponses/event-response';
 import {EventService} from '../../../services/event/event.service';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-event-list',

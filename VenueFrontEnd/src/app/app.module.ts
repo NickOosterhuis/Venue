@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import {FormsModule, NG_ASYNC_VALIDATORS, NG_VALIDATORS} from '@angular/forms';
+import {FormsModule, NG_ASYNC_VALIDATORS} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,11 +33,10 @@ import { NavbarItemsComponent } from './components/navigation/navbar-items/navba
 import { ProfileComponent } from './components/profile/profile/profile.component';
 import {ErrorInterceptorService} from './services/auth/interceptors/error-interceptor.service';
 import {JwtInterceptorService} from './services/auth/interceptors/jwt-interceptor.service';
-import {AuthGuardService} from './services/auth/interceptors/auth-guard.service';
-import {CanActivate} from '@angular/router';
 import {UsernameValidator} from './customvalidators/username-validator';
 import {EmailValidator} from './customvalidators/email-validator';
 import {CompanyNameValidator} from './customvalidators/company-name-validator';
+import { UpdatePasswordComponent } from './components/profile/update-password/update-password.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +54,7 @@ import {CompanyNameValidator} from './customvalidators/company-name-validator';
     CreateEventComponent,
     NavbarItemsComponent,
     ProfileComponent,
+    UpdatePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,17 +86,17 @@ import {CompanyNameValidator} from './customvalidators/company-name-validator';
       multi: true
     },
     {
-      provide: NG_VALIDATORS,
+      provide: NG_ASYNC_VALIDATORS,
       useClass: UsernameValidator,
       multi: true
     },
     {
-      provide: NG_VALIDATORS,
+      provide: NG_ASYNC_VALIDATORS,
       useClass: EmailValidator,
       multi: true
     },
     {
-      provide: NG_VALIDATORS,
+      provide: NG_ASYNC_VALIDATORS,
       useClass: CompanyNameValidator,
       multi: true
     },

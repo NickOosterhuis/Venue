@@ -2,9 +2,11 @@ package nl.nickoosterhuis.venue.controllers;
 
 import nl.nickoosterhuis.venue.DTO.UserDTO;
 import nl.nickoosterhuis.venue.exceptions.BadRequestException;
+import nl.nickoosterhuis.venue.exceptions.ResourceNotFoundException;
 import nl.nickoosterhuis.venue.models.User;
 import nl.nickoosterhuis.venue.payload.ApiResponse;
 import nl.nickoosterhuis.venue.payload.UpdateAccountRequest;
+import nl.nickoosterhuis.venue.payload.UpdatePasswordRequest;
 import nl.nickoosterhuis.venue.payload.UpdateProfilePictureRequest;
 import nl.nickoosterhuis.venue.repositories.UserRepository;
 import nl.nickoosterhuis.venue.security.CurrentUser;
@@ -38,6 +40,13 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
     public UserDTO getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
+
+        User userFromDb = userRepository.findById(user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", user.getId()));
+
+        if(!userFromDb.getProfilePictureUrl().isEmpty())
+            user.setProfilePictureUrl(userFromDb.getProfilePictureUrl());
+
         return convertToDTO(user);
     }
 
@@ -58,11 +67,26 @@ public class UserController {
     public ResponseEntity<?> updateCurrentUser(@Valid @RequestBody UpdateAccountRequest updateAccountRequest, @CurrentUser UserPrincipal userPrincipal) {
         User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
 
-        if (!updateAccountRequest.getNewPassword().equals(updateAccountRequest.getNewPasswordVerification()))
+        if(!user.getEmail().equals(updateAccountRequest.getEmail()))
+            user.setEmail(updateAccountRequest.getEmail().trim());
+
+        if(!user.getName().equals(updateAccountRequest.getName()))
+            user.setName(updateAccountRequest.getName().trim());
+
+        userRepository.save(user);
+
+        return ResponseEntity.accepted().body(new ApiResponse(true, "User updated successfully@"));
+    }
+
+    @PutMapping("/me/changePassword")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_VENUE')")
+    public ResponseEntity<?> updateCurrentUserPassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest, @CurrentUser UserPrincipal userPrincipal) {
+        User user = userPrincipalHelper.getUserPrincipal(userPrincipal);
+
+        if (!updatePasswordRequest.getNewPassword().equals(updatePasswordRequest.getNewPasswordVerification()))
             throw new BadRequestException("Passwords don't match");
 
-        user.setName(updateAccountRequest.getName().trim());
-        user.setPassword(passwordEncoder.encode(updateAccountRequest.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
         userRepository.save(user);
 
         return ResponseEntity.accepted().body(new ApiResponse(true, "User updated successfully@"));

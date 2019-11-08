@@ -14,4 +14,7 @@ public class UserDTO {
     private String name;
     @NotBlank
     private String email;
+
+    private String profilePicture;
+
 }

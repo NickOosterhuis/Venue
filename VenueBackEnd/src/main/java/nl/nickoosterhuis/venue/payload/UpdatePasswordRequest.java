@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class UpdateAccountRequest {
+public class UpdatePasswordRequest {
     @NotBlank
-    private String email;
+    private String newPassword;
 
     @NotBlank
-    private String name;
+    private String newPasswordVerification;
 }
