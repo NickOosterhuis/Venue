@@ -21,6 +21,9 @@ public class EventDTO {
     private OffsetDateTime startDateAndTime;
     @NotBlank
     private OffsetDateTime endDateAndTime;
+
+    private OffsetDateTime postedAt;
+
     @NotBlank
     private String streetName;
     @NotBlank

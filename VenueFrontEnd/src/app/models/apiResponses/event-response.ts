@@ -12,6 +12,7 @@ export class EventResponse {
   country: string;
   startDateAndTime: string;
   endDateAndTime: string;
+  postedAt: string;
 
   venue: Venue;
 

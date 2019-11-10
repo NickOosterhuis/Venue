@@ -1,1 +1,21 @@
-<p>venue-list works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">All venues</h5>
+          <div class="list-group">
+            <a *ngFor="let venue of venues" [routerLink]="['details', venue.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h4>{{venue.companyName}}</h4>
+              </div>
+              {{venue.streetName}} {{venue.houseNumber}}<br>
+              {{venue.postalCode}} {{venue.state}}<br>
+              {{venue.country}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

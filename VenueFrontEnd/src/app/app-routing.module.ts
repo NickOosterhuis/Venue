@@ -19,10 +19,10 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'venues', component: VenueListComponent },
   { path: 'venues/create', component: CreateVenueComponent },
-  { path: 'venues/details/{id}', component: VenueDetailsComponent },
+  { path: 'venues/details/:id', component: VenueDetailsComponent },
   { path: '', redirectTo: '/events', pathMatch: 'full' },
   { path: 'events', component: EventListComponent },
-  { path: 'events/details/{id}', component: EventDetailsComponent},
+  { path: 'events/details/:id', component: EventDetailsComponent},
   { path: 'events/create', component: CreateEventComponent },
 ];
 

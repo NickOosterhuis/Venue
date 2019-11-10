@@ -24,8 +24,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/event")
@@ -48,7 +52,14 @@ public class EventController {
         List<EventDTO> eventDTOs = new ArrayList<>();
 
         events.forEach(e -> eventDTOs.add(convertToDto(e)));
-        return new ResponseEntity<>(eventDTOs, HttpStatus.OK);
+
+        List<EventDTO> sortedEvents = eventDTOs.stream()
+                .sorted(Comparator.comparing(EventDTO::getEndDateAndTime)
+                        .thenComparing(EventDTO::getPostedAt, Comparator.reverseOrder())
+                        .thenComparing(EventDTO::getTitle))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(sortedEvents, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -75,6 +86,7 @@ public class EventController {
 
         Event event = convertToEntity(eventRequest);
         event.setVenue(registeredVenue);
+        event.setPostedAt(OffsetDateTime.now());
 
         Event result = eventRepository.save(event);
 

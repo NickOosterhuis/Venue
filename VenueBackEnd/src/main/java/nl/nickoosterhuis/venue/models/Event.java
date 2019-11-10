@@ -44,6 +44,9 @@ public class Event {
     @Column(nullable = false)
     private OffsetDateTime endDateAndTime;
 
+    @Column
+    private OffsetDateTime postedAt;
+
     @Column(nullable = false)
     private String streetName;
 
