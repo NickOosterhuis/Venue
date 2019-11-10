@@ -31,6 +31,7 @@ public class TokenProvider {
                 .setSubject(userPrincipal.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
+                .claim("roles", userPrincipal.getAuthorities())
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
     }

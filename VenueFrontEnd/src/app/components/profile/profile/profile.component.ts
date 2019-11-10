@@ -27,6 +27,9 @@ export class ProfileComponent implements OnInit {
   closeResult: string;
   updateProfileFormGroup: FormGroup;
 
+
+  userRole: string;
+
   constructor(private userService: UserService,
               private authService: AuthService,
               private router: Router,
@@ -40,6 +43,7 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
       this.getProfile();
+      this.getUserRole();
     }
   }
 
@@ -96,6 +100,10 @@ export class ProfileComponent implements OnInit {
     } else {
       return  `with: ${reason}`;
     }
+  }
+
+  getUserRole() {
+    this.userRole = this.authService.getUserRole();
   }
 
 }

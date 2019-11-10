@@ -68,4 +68,20 @@ export class AuthService {
   checkEmail(email: string): any {
     return this.httpClient.post<any>(Constants.API_BASE_URL + Constants.API_CHECK_EMAIL, email);
   }
+
+  getUserRole() {
+    let role = '';
+
+    if (this.isUserLoggedIn()) {
+      const jwt = localStorage.getItem('currentUser');
+      const jwtData = jwt.split('.')[1]
+      const decodedJwtJsonData = window.atob(jwtData)
+      const decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+      const roleObject = decodedJwtData.roles;
+      role = JSON.stringify(roleObject[0].authority);
+    }
+
+    return role;
+  }
 }
