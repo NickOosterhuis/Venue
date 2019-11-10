@@ -44,7 +44,7 @@ public class UserController {
         User userFromDb = userRepository.findById(user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", user.getId()));
 
-        if(!userFromDb.getProfilePictureUrl().isEmpty())
+        if(userFromDb.getProfilePictureUrl() != null)
             user.setProfilePictureUrl(userFromDb.getProfilePictureUrl());
 
         return convertToDTO(user);
