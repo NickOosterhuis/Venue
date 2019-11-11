@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Constants} from '../../constants';
+import {Event} from '../../models/event';
 
 @Injectable({
   providedIn: 'root'

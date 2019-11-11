@@ -4,7 +4,8 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorResponse} from '../../../models/apiResponses/error-response';
 import {DateAdapter} from '@angular/material';
-import {timestamp} from 'rxjs/operators';
+import {Event} from '../../../models/event';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
@@ -21,10 +22,14 @@ export class CreateEventComponent implements OnInit {
   pickedStartTime: string;
   pickedEndTime: string;
 
+  startDateAndTime: string;
+  endDateAndTime: string;
+
   constructor(private eventService: EventService,
               private authService: AuthService,
               private formBuilder: FormBuilder,
-              private adapter: DateAdapter<any>
+              private adapter: DateAdapter<any>,
+              private router: Router
               ) {
     this.adapter.setLocale('nl-NL');
   }
@@ -45,6 +50,7 @@ export class CreateEventComponent implements OnInit {
       endTimeCtrl: ['', Validators.required],
       endDateCtrl: ['', Validators.required],
       countryCtrl: ['', Validators.required],
+      paymentCtrl: ['', Validators.required],
     });
   }
 
@@ -60,6 +66,24 @@ export class CreateEventComponent implements OnInit {
 
   onCreateEventClicked(): void {
     this.combineDateAndTimes();
+
+    const title: string = this.createEventFormGroup.get('titleCtrl').value;
+    const description: string = this.createEventFormGroup.get('descriptionCtrl').value;
+    const payment: number = this.createEventFormGroup.get('paymentCtrl').value;
+    const streetName: string = this.createEventFormGroup.get('streetNameCtrl').value;
+    const houseNumber: string = this.createEventFormGroup.get('houseNumberCtrl').value;
+    const postalCode: string = this.createEventFormGroup.get('postalCodeCtrl').value;
+    const state: string = this.createEventFormGroup.get('stateCtrl').value;
+    const country: string = this.createEventFormGroup.get('countryCtrl').value;
+    const startDateAndTime: string = this.startDateAndTime;
+    const endDateAndTime: string = this.endDateAndTime;
+
+    const event = new Event(title, description, payment, streetName, houseNumber, postalCode, state, country, startDateAndTime, endDateAndTime);
+
+    this.eventService.postEvent(event).subscribe(
+      data => this.router.navigate(['/events']),
+      error => this.error = error,
+    );
   }
 
   combineDateAndTimes(): void {
@@ -73,7 +97,7 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedStartDate);
 
 
-    this.convertJSDateToDateTimeOffset(this.pickedStartDate);
+    this.startDateAndTime = this.convertJSDateToDateTimeOffset(this.pickedStartDate);
 
     // End DateTime of Event
     this.pickedEndTime = this.createEventFormGroup.get('endTimeCtrl').value;
@@ -85,7 +109,7 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedEndDate);
 
 
-    this.convertJSDateToDateTimeOffset(this.pickedEndDate);
+    this.endDateAndTime = this.convertJSDateToDateTimeOffset(this.pickedEndDate);
   }
 
   convertJSDateToDateTimeOffset(date: Date) {
