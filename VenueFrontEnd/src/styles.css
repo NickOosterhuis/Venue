@@ -4,7 +4,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+body { background-color: #608aa9ed}
+/*.card { background-color: #999999}*/
+/*.list-group-item:hover { background-color: #39074e}*/
 
 /*
  * Social Buttons for Bootstrap
