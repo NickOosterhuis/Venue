@@ -18,11 +18,12 @@ import { OAuthRedirectHandlerComponent } from './components/auth/oauth-redirect-
 import { NavbarComponent } from './components/navigation/navbar/navbar.component';
 import { CreateEventComponent } from './components/events/create-event/create-event.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
-  MatButtonModule,
+  MatButtonModule, MatDatepickerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatNativeDateModule,
   MatRadioModule,
   MatSelectModule, MatSlideToggleModule,
   MatStepperModule
@@ -73,6 +74,9 @@ import { UpdatePasswordComponent } from './components/profile/update-password/up
     MatButtonModule,
     MatRadioModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [
     {

@@ -1,0 +1,11 @@
+.mat-form-field{
+  width: 100%;
+}
+
+.startDateAndTime mat-form-field {
+  width: 50%;
+}
+
+.endDateAndTime mat-form-field {
+  width: 50%;
+}

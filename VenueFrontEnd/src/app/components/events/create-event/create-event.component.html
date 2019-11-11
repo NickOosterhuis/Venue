@@ -1,1 +1,96 @@
-<p>create-event works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Create event</h5>
+          <form [formGroup]="createEventFormGroup">
+            <mat-form-field>
+              <input matInput placeholder="Title" formControlName="titleCtrl" type="text" name="title" required>
+              <mat-error *ngIf="createEventFormGroup.get('titleCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <textarea matInput placeholder="Description" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
+              <mat-error *ngIf="createEventFormGroup.get('descriptionCtrl').hasError('required')">
+                Description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Streetname" formControlName="streetNameCtrl" type="text" name="streetName" required>
+              <mat-error *ngIf="createEventFormGroup.get('streetNameCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="House number" formControlName="houseNumberCtrl" type="text" name="houseNumber" required>
+              <mat-error *ngIf="createEventFormGroup.get('houseNumberCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Postcode" formControlName="postalCodeCtrl" type="text" name="postalCode" required>
+              <mat-error *ngIf="createEventFormGroup.get('postalCodeCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="State" formControlName="stateCtrl" type="text" name="state" required>
+              <mat-error *ngIf="createEventFormGroup.get('stateCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Country" formControlName="countryCtrl" type="text" name="country" required>
+              <mat-error *ngIf="createEventFormGroup.get('countryCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div class="startDateAndTime">
+              <mat-form-field>
+                <input matInput id="datepicker" [min]="currentDate" [max]="setMaxDateOnStartDatePicker()" [matDatepicker]="startPicker" formControlName="startDateCtrl" placeholder="Start date" required>
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker disabled="false"></mat-datepicker>
+                <mat-error *ngIf="createEventFormGroup.get('startDateCtrl').hasError('required')">
+                  Start date is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Start time" [ngxTimepicker]="startTime" [format]="24" formControlName="startTimeCtrl" readonly>
+                <ngx-material-timepicker #startTime></ngx-material-timepicker>
+                <mat-error *ngIf="createEventFormGroup.get('startTimeCtrl').hasError('required')">
+                  Start time is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="endDateAndTime">
+              <mat-form-field>
+                <input matInput [min]="setMinDateOnEndDatePicker()" [matDatepicker]="endPicker" formControlName="endDateCtrl" placeholder="End date" required>
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker disabled="false"></mat-datepicker>
+                <mat-error *ngIf="createEventFormGroup.get('endDateCtrl').hasError('required')">
+                  End date is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="End time" [ngxTimepicker]="endTime" [format]="24" formControlName="endTimeCtrl" readonly>
+                <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                <mat-error *ngIf="createEventFormGroup.get('endTimeCtrl').hasError('required')">
+                  End time is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-error *ngIf="error != null">{{error.message}}</mat-error>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="onCreateEventClicked()">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -80,6 +80,7 @@ export class AuthService {
 
       const roleObject = decodedJwtData.roles;
       role = JSON.stringify(roleObject[0].authority);
+      role = role.replace(/['"]+/g, '');
     }
 
     return role;
