@@ -62,6 +62,22 @@ public class EventController {
         return new ResponseEntity<>(sortedEvents, HttpStatus.OK);
     }
 
+    @GetMapping("/byVenue/{id}")
+    public ResponseEntity<?> getEventsByVenueId(@PathVariable("id") String venueId) {
+        Iterable<Event> events = eventRepository.findAllByVenueId(venueId);
+        List<EventDTO> eventDTOs = new ArrayList<>();
+
+        events.forEach(e -> eventDTOs.add(convertToDto(e)));
+
+        List<EventDTO> sortedEvents = eventDTOs.stream()
+                .sorted(Comparator.comparing(EventDTO::getEndDateAndTime)
+                        .thenComparing(EventDTO::getPostedAt, Comparator.reverseOrder())
+                        .thenComparing(EventDTO::getTitle))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(sortedEvents, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable("id") String id) {
         Event event = eventRepository.findById(id)

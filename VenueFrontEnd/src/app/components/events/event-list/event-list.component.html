@@ -8,12 +8,12 @@
             <a *ngFor="let event of events" [routerLink]="['details', event.id]" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{event.title}}</h5>
-                <small>{{calculateTimeAgo(event.postedAt)}}</small>
+                <small>{{dateHelper.calculateTimeAgo(event.postedAt)}}</small>
               </div>
               <p class="mb-1">{{(event.description.length>100)? (event.description | slice:0:100)+'...':(event.description)}}</p>
               <div>
-                <small>Starts on: {{formatDatetoLocalDate(event.startDateAndTime)}} at {{formatDatetoLocalTime(event.startDateAndTime)}}</small>
-                <small> and ends on: {{formatDatetoLocalDate(event.endDateAndTime)}} at {{formatDatetoLocalTime(event.endDateAndTime)}}</small>
+                <small>Starts on: <strong>{{dateHelper.formatDatetoLocalDate(event.startDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.startDateAndTime)}}</strong>
+                  and ends on: <strong>{{dateHelper.formatDatetoLocalDate(event.endDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.endDateAndTime)}}</strong></small>
               </div>
               <small>{{event.venue.companyName}} {{event.state}}</small>
             </a>

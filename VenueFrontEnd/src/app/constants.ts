@@ -29,6 +29,8 @@ export class Constants {
 
   public static get API_EVENT(): string { return '/event'; }
 
+  public static get API_BY_VENUE(): string {return '/byVenue'; }
+
   // OAUTH URLS
   public static get OAUTH2_REDIRECT_URL(): string { return 'http://localhost:4200/oauth2/redirect'; }
 

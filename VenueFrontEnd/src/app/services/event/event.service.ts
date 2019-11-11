@@ -29,4 +29,8 @@ export class EventService {
   deleteEvent(id: string): any {
     return this.httpClient.delete(Constants.API_BASE_URL + Constants.API_EVENT + '/' + id);
   }
+
+  getEventsByVenueId(id: string): any {
+    return this.httpClient.get(Constants.API_BASE_URL + Constants.API_EVENT + Constants.API_BY_VENUE + '/' + id);
+  }
 }

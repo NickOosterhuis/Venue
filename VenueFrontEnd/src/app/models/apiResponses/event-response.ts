@@ -1,4 +1,5 @@
 import {Venue} from '../venue';
+import {VenueResponse} from './venue-response';
 
 export class EventResponse {
   id: string;
@@ -14,6 +15,6 @@ export class EventResponse {
   endDateAndTime: string;
   postedAt: string;
 
-  venue: Venue;
+  venue: VenueResponse;
 
 }

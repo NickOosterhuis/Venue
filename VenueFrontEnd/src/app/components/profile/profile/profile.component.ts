@@ -10,7 +10,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UsernameValidator} from '../../../customvalidators/username-validator';
 import {EmailValidator} from '../../../customvalidators/email-validator';
 import {UpdateUserProfile} from '../../../models/updateUserProfile';
-import {UpdateUserPassword} from '../../../models/update-user-password';
 
 @Component({
   selector: 'app-profile',

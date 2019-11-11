@@ -6,6 +6,7 @@ import {ErrorResponse} from '../../../models/apiResponses/error-response';
 import {DateAdapter} from '@angular/material';
 import {Event} from '../../../models/event';
 import {Router} from '@angular/router';
+import {DateHelper} from '../../../helpers/date-helper';
 
 @Component({
   selector: 'app-create-event',
@@ -29,7 +30,8 @@ export class CreateEventComponent implements OnInit {
               private authService: AuthService,
               private formBuilder: FormBuilder,
               private adapter: DateAdapter<any>,
-              private router: Router
+              private router: Router,
+              private dateHelper: DateHelper
               ) {
     this.adapter.setLocale('nl-NL');
   }
@@ -78,7 +80,18 @@ export class CreateEventComponent implements OnInit {
     const startDateAndTime: string = this.startDateAndTime;
     const endDateAndTime: string = this.endDateAndTime;
 
-    const event = new Event(title, description, payment, streetName, houseNumber, postalCode, state, country, startDateAndTime, endDateAndTime);
+    const event = new Event(
+      title,
+      description,
+      payment,
+      streetName,
+      houseNumber,
+      postalCode,
+      state,
+      country,
+      startDateAndTime,
+      endDateAndTime
+    );
 
     this.eventService.postEvent(event).subscribe(
       data => this.router.navigate(['/events']),
@@ -97,7 +110,7 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedStartDate);
 
 
-    this.startDateAndTime = this.convertJSDateToDateTimeOffset(this.pickedStartDate);
+    this.startDateAndTime = DateHelper.convertJSDateToDateTimeOffset(this.pickedStartDate);
 
     // End DateTime of Event
     this.pickedEndTime = this.createEventFormGroup.get('endTimeCtrl').value;
@@ -109,52 +122,6 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedEndDate);
 
 
-    this.endDateAndTime = this.convertJSDateToDateTimeOffset(this.pickedEndDate);
-  }
-
-  convertJSDateToDateTimeOffset(date: Date) {
-    const timeZoneOffsetMin = date.getTimezoneOffset();
-    const offsetHrs = Math.abs(timeZoneOffsetMin / 60);
-    const offsetMins = Math.abs(timeZoneOffsetMin % 60);
-
-    let timezoneStandard;
-    let offsetHrsStr;
-    let offsetMinsStr;
-
-    if (offsetHrs < 10) {
-      offsetHrsStr = '0' + offsetHrs;
-    }
-
-    if (offsetMins < 10) {
-      offsetMinsStr = '0' + offsetMins;
-    }
-
-    if (timeZoneOffsetMin < 0) {
-      timezoneStandard = '+' + offsetHrsStr + ':' + offsetMinsStr;
-    } else if (timeZoneOffsetMin > 0) {
-      timezoneStandard = '-' + offsetHrsStr + ':' + offsetMinsStr;
-    } else if (timeZoneOffsetMin === 0) {
-      timezoneStandard = 'Z';
-    }
-
-    const currentDate = date.getDate();
-    const currentMonth = date.getMonth() + 1;
-    const currentYear = date.getFullYear();
-    const currentHrs = date.getHours();
-    const currentMins = date.getMinutes();
-    const currentSecs = date.getSeconds();
-
-    let convertedDateTime;
-
-    const currentDateStr = currentDate < 10 ? '0' + currentDate.toString() : currentDate.toString();
-    const CurrentMonthStr = currentMonth < 10 ? '0' + currentMonth.toString() : currentMonth.toString();
-    const currentHrsStr = currentHrs < 10 ? '0' + currentHrs.toString() : currentHrs.toString();
-    const currentMinsStr = currentMins < 10 ? '0' + currentMins.toString() : currentMins.toString();
-    const currentSecStr = currentSecs < 10 ? '0' + currentSecs.toString() : currentSecs.toString();
-
-    convertedDateTime = currentYear + '-' + CurrentMonthStr + '-' + currentDateStr + 'T' + currentHrsStr + ':' + currentMinsStr + ':' + currentSecStr + timezoneStandard;
-
-    console.log(convertedDateTime);
-    return convertedDateTime;
+    this.endDateAndTime = DateHelper.convertJSDateToDateTimeOffset(this.pickedEndDate);
   }
 }

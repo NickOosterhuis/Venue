@@ -16,6 +16,7 @@ export class NavbarItemsComponent implements OnInit {
 
   onLogoutClicked() {
     this.authService.logout();
+    location.reload();
     this.router.navigate(['/events']);
   }
 }

@@ -1,1 +1,62 @@
-<p>event-details works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h2 class="card-title text-center">{{event.title}}</h2>
+          <div class="row">
+            <div class="col-sm-8 col-md-8 col-lg-8 mx-auto">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>About {{event.title}}</mat-card-title>
+                  <mat-card-subtitle>Posted {{dateHelper.calculateTimeAgo(event.postedAt)}} ago</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="text-left px-3">
+                  <p>{{event.description}}</p>
+                  <p *ngIf="event.payment">Reward: €{{event.payment}}</p>
+                  <mat-divider></mat-divider>
+                  <h5 style="padding-top: 16px">When</h5>
+                  <p>Event starts on: <strong>{{dateHelper.formatDatetoLocalDate(event.startDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.startDateAndTime)}}</strong>
+                  <br> Event ends on: <strong>{{dateHelper.formatDatetoLocalDate(event.endDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.endDateAndTime)}}</strong></p>
+                  <mat-divider></mat-divider>
+                  <h5 style="padding-top: 16px">Where</h5>
+                  <p>{{event.streetName}} {{event.houseNumber}}
+                  <br>{{event.postalCode}} {{event.state}}
+                  <br>{{event.country}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4 mx-auto">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>The VeNUe</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-left px-3">
+                  <mat-divider></mat-divider>
+                  <h5 style="padding-top: 16px">{{event.venue.companyName}}</h5>
+                  <p>{{event.venue.streetName}} {{event.venue.houseNumber}}
+                    <br>{{event.venue.postalCode}} {{event.venue.state}}
+                    <br>{{event.venue.country}}</p>
+                  <mat-divider></mat-divider>
+                  <h5 style="padding-top: 16px">Contact</h5>
+                  <a href="mailto:{{event.venue.user.email}}" target="_blank">{{event.venue.user.email}}</a>
+                  <br>
+                  <a *ngIf="event.venue.phoneNumber" href="tel:{{event.venue.phoneNumber}}">{{event.venue.phoneNumber}}</a>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <div style="padding-top: 16px">
+                  <button class="btn btn-lg btn-primary btn-block text-uppercase" [routerLink]="['/venues/details', event.venue.id]">View more of {{event.venue.companyName}}</button>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

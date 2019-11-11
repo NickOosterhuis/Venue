@@ -1,1 +1,59 @@
-<p>venue-details works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h2 class="card-title text-center">{{venue.companyName}}</h2>
+          <mat-divider></mat-divider>
+          <mat-card>
+            <div class="row">
+              <div>
+                <mat-card-header>
+                  <mat-card-title>About {{venue.companyName}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-left px-3">
+                      <p>{{venue.streetName}} {{venue.houseNumber}}
+                        <br>{{venue.postalCode}} {{venue.state}}
+                        <br>{{venue.country}}</p>
+                </mat-card-content>
+              </div>
+            <mat-divider vertical style="height: 100%; margin-left: 60%;"></mat-divider>
+              <div>
+                <mat-card-header>
+                  <mat-card-title>Contact</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-left px-3">
+                  <a href="mailto:{{venue.user.email}}" target="_blank">{{venue.user.email}}</a>
+                  <br>
+                  <a *ngIf="venue.phoneNumber" href="tel:{{venue.phoneNumber}}">{{venue.phoneNumber}}</a>
+                </mat-card-content>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div style="padding-top: 18px">
+              <h5 class="card-title text-center">{{venue.companyName}}'s planned events</h5>
+              <div class="list-group">
+                <a *ngFor="let event of events" [routerLink]="['/events/details', event.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{event.title}}</h5>
+                    <small>{{dateHelper.calculateTimeAgo(event.postedAt)}}</small>
+                  </div>
+                  <p class="mb-1">{{(event.description.length>100)? (event.description | slice:0:100)+'...':(event.description)}}</p>
+                  <div>
+                    <small>Starts on: <strong>{{dateHelper.formatDatetoLocalDate(event.startDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.startDateAndTime)}}</strong>
+                      and ends on: <strong>{{dateHelper.formatDatetoLocalDate(event.endDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.endDateAndTime)}}</strong></small>
+                  </div>
+                  <small>{{event.venue.companyName}} {{event.state}}</small>
+                </a>
+              </div>
+            </div>
+          </mat-card>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

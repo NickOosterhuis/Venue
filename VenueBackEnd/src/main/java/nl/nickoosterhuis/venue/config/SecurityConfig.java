@@ -116,6 +116,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/venue/**",
                         "/venue",
                         "/event/**",
+                        "event/byVenue",
+                        "event/byVenue/**",
                         "/event/",
                         "/error",
                         "/favicon.ico",

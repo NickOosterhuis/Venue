@@ -20,7 +20,7 @@ import { CreateEventComponent } from './components/events/create-event/create-ev
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
-  MatButtonModule, MatDatepickerModule,
+  MatButtonModule, MatCardModule, MatDatepickerModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatNativeDateModule,
@@ -76,7 +76,9 @@ import { UpdatePasswordComponent } from './components/profile/update-password/up
     MatSlideToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatCardModule,
+    MatDividerModule
   ],
   providers: [
     {

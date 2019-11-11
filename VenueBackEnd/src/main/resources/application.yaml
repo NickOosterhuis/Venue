@@ -7,10 +7,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/VenueDb?createDatabaseIfNotExist=true
     username: VenueProjectUser
     password: VenueSecret12#$
+    hikari:
+      auto-commit: false
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: false

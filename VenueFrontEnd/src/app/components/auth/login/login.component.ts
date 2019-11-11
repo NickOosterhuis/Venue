@@ -38,7 +38,10 @@ export class LoginComponent implements OnInit {
     const password = this.loginFormGroup.get('passwordCtrl').value;
 
     this.authService.login(email, password).subscribe(
-      data => this.router.navigate(['/events']),
+      data => {
+        this.authService.getUserRole();
+        this.router.navigate(['/events']);
+      },
       error => this.error = error
     );
     this.errorSocialLogin = null;
