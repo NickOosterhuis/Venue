@@ -59,10 +59,11 @@ export class CreateEventComponent implements OnInit {
   }
 
   onCreateEventClicked(): void {
-    this.combineDateAndTime();
+    this.combineDateAndTimes();
   }
 
-  combineDateAndTime(): void {
+  combineDateAndTimes(): void {
+    // Start DateTime of Event
     this.pickedStartTime = this.createEventFormGroup.get('startTimeCtrl').value;
     const startTimeArr = this.pickedStartTime.split(':');
     const startHour = parseInt(startTimeArr[0], 10);
@@ -71,12 +72,65 @@ export class CreateEventComponent implements OnInit {
     this.pickedStartDate.setHours(startHour, startMin, 0);
     console.log(this.pickedStartDate);
 
+
+    this.convertJSDateToDateTimeOffset(this.pickedStartDate);
+
+    // End DateTime of Event
     this.pickedEndTime = this.createEventFormGroup.get('endTimeCtrl').value;
-    const endTimeArr = this.pickedStartTime.split(':');
+    const endTimeArr = this.pickedEndTime.split(':');
     const endHour = parseInt(endTimeArr[0], 10);
     const endMin = parseInt(endTimeArr[1], 10);
 
-    this.pickedStartDate.setHours(endHour, endMin, 0);
+    this.pickedEndDate.setHours(endHour, endMin, 0);
     console.log(this.pickedEndDate);
+
+
+    this.convertJSDateToDateTimeOffset(this.pickedEndDate);
+  }
+
+  convertJSDateToDateTimeOffset(date: Date) {
+    const timeZoneOffsetMin = date.getTimezoneOffset();
+    const offsetHrs = Math.abs(timeZoneOffsetMin / 60);
+    const offsetMins = Math.abs(timeZoneOffsetMin % 60);
+
+    let timezoneStandard;
+    let offsetHrsStr;
+    let offsetMinsStr;
+
+    if (offsetHrs < 10) {
+      offsetHrsStr = '0' + offsetHrs;
+    }
+
+    if (offsetMins < 10) {
+      offsetMinsStr = '0' + offsetMins;
+    }
+
+    if (timeZoneOffsetMin < 0) {
+      timezoneStandard = '+' + offsetHrsStr + ':' + offsetMinsStr;
+    } else if (timeZoneOffsetMin > 0) {
+      timezoneStandard = '-' + offsetHrsStr + ':' + offsetMinsStr;
+    } else if (timeZoneOffsetMin === 0) {
+      timezoneStandard = 'Z';
+    }
+
+    const currentDate = date.getDate();
+    const currentMonth = date.getMonth() + 1;
+    const currentYear = date.getFullYear();
+    const currentHrs = date.getHours();
+    const currentMins = date.getMinutes();
+    const currentSecs = date.getSeconds();
+
+    let convertedDateTime;
+
+    const currentDateStr = currentDate < 10 ? '0' + currentDate.toString() : currentDate.toString();
+    const CurrentMonthStr = currentMonth < 10 ? '0' + currentMonth.toString() : currentMonth.toString();
+    const currentHrsStr = currentHrs < 10 ? '0' + currentHrs.toString() : currentHrs.toString();
+    const currentMinsStr = currentMins < 10 ? '0' + currentMins.toString() : currentMins.toString();
+    const currentSecStr = currentSecs < 10 ? '0' + currentSecs.toString() : currentSecs.toString();
+
+    convertedDateTime = currentYear + '-' + CurrentMonthStr + '-' + currentDateStr + 'T' + currentHrsStr + ':' + currentMinsStr + ':' + currentSecStr + timezoneStandard;
+
+    console.log(convertedDateTime);
+    return convertedDateTime;
   }
 }
