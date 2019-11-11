@@ -18,6 +18,10 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
+              <input matInput placeholder="Reward for the band" formControlName="paymentCtrl" type="number" name="reward">
+              <span matPrefix>€ </span>
+            </mat-form-field>
+            <mat-form-field>
               <input matInput placeholder="Streetname" formControlName="streetNameCtrl" type="text" name="streetName" required>
               <mat-error *ngIf="createEventFormGroup.get('streetNameCtrl').hasError('required')">
                 Title is <strong>required</strong>
