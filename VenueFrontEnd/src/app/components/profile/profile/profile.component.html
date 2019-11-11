@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="user" class="container">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
       <div class="card my-5">
@@ -8,7 +8,8 @@
             <div class="p-4 bg-dark">
               <div class="media align-items-end profile-header">
                 <div class="profile mr-3 my-3">
-                  <img src="{{user.profilePicture}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                  <img *ngIf="!user.profilePicture" src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                  <img *ngIf="user.profilePicture" src="{{user.profilePicture}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
                   <button class="btn btn-dark btn-sm btn-block" (click)="openEditProfile(content)">Edit profile</button>
                 </div>
                 <div class="media-body mb-5 text-white">

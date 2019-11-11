@@ -10,6 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UsernameValidator} from '../../../customvalidators/username-validator';
 import {EmailValidator} from '../../../customvalidators/email-validator';
 import {UpdateUserProfile} from '../../../models/updateUserProfile';
+import {Constants} from '../../../constants';
 
 @Component({
   selector: 'app-profile',
@@ -104,5 +105,4 @@ export class ProfileComponent implements OnInit {
   getUserRole() {
     this.userRole = this.authService.getUserRole();
   }
-
 }

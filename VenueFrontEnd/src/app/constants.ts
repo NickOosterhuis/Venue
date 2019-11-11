@@ -41,5 +41,8 @@ export class Constants {
   // ALERT MESSAGES
   public static get WRONG_EMAIL_OR_PASSWORD(): string { return  'Wrong email or password'; }
 
-  public static  get USER_ALREADY_EXISTS(): string {return 'This username and/or email already exists'; }
+  public static  get USER_ALREADY_EXISTS(): string { return 'This username and/or email already exists'; }
+
+  // PLACEHOLDER IMG
+  public static get PLACEHOLDER_IMAGE(): string { return 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'; }
 }
