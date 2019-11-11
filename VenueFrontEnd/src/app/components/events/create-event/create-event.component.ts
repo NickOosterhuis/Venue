@@ -110,7 +110,7 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedStartDate);
 
 
-    this.startDateAndTime = DateHelper.convertJSDateToDateTimeOffset(this.pickedStartDate);
+    this.startDateAndTime = this.dateHelper.convertJSDateToDateTimeOffset(this.pickedStartDate);
 
     // End DateTime of Event
     this.pickedEndTime = this.createEventFormGroup.get('endTimeCtrl').value;
@@ -122,6 +122,6 @@ export class CreateEventComponent implements OnInit {
     console.log(this.pickedEndDate);
 
 
-    this.endDateAndTime = DateHelper.convertJSDateToDateTimeOffset(this.pickedEndDate);
+    this.endDateAndTime = this.dateHelper.convertJSDateToDateTimeOffset(this.pickedEndDate);
   }
 }

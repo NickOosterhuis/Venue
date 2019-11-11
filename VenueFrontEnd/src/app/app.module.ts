@@ -10,7 +10,6 @@ import { AlertComponent } from './components/alert/alert.component';
 import { EventListComponent } from './components/events/event-list/event-list.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { CreateVenueComponent } from './components/venue/venue-create/create-venue.component';
 import { VenueListComponent } from './components/venue/venue-list/venue-list.component';
 import { VenueDetailsComponent } from './components/venue/venue-details/venue-details.component';
 import { EventDetailsComponent } from './components/events/event-details/event-details.component';
@@ -46,7 +45,6 @@ import { UpdatePasswordComponent } from './components/profile/update-password/up
     EventListComponent,
     LoginComponent,
     RegisterComponent,
-    CreateVenueComponent,
     VenueListComponent,
     VenueDetailsComponent,
     EventDetailsComponent,
