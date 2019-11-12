@@ -7,6 +7,7 @@ import {DateHelper} from '../../../helpers/date-helper';
 import {EventResponse} from '../../../models/apiResponses/event-response';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {DateAdapter} from '@angular/material';
 
 @Component({
   selector: 'app-update-event',
@@ -34,7 +35,10 @@ export class UpdateEventComponent implements OnInit {
               private dateHelper: DateHelper,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private adapter: DateAdapter<any>) {
+    this.adapter.setLocale('nl-NL');
+  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -53,6 +57,16 @@ export class UpdateEventComponent implements OnInit {
   }
 
   setupUpdateEventFormGroup(): void {
+
+    const presetStartDate = this.dateHelper.formatDatetoLocalDate(this.event.startDateAndTime);
+    const presetStartTime = this.dateHelper.formatDbDatetoLocalTime(this.event.startDateAndTime);
+    const presetEndDate = this.dateHelper.formatDatetoLocalDate(this.event.endDateAndTime);
+    const presetEndTime = this.dateHelper.formatDbDatetoLocalTime(this.event.endDateAndTime);
+
+    console.log(presetStartDate);
+    console.log(presetStartTime);
+
+
     this.updateEventFormGroup = this.formBuilder.group( {
       titleCtrl: [this.event.title, Validators.required],
       descriptionCtrl: [this.event.description, Validators.required],
@@ -60,10 +74,10 @@ export class UpdateEventComponent implements OnInit {
       houseNumberCtrl: [this.event.houseNumber, Validators.required],
       stateCtrl: [this.event.state, Validators.required],
       postalCodeCtrl: [this.event.postalCode, Validators.required],
-      startDateCtrl: [this.event.startDateAndTime, Validators.required],
-      startTimeCtrl: [this.event.startDateAndTime, Validators.required],
-      endTimeCtrl: [this.event.endDateAndTime, Validators.required],
-      endDateCtrl: [this.event.endDateAndTime, Validators.required],
+      startDateCtrl: [presetStartDate, Validators.required],
+      startTimeCtrl: [presetStartTime, Validators.required],
+      endTimeCtrl: [presetEndTime, Validators.required],
+      endDateCtrl: [presetEndDate, Validators.required],
       countryCtrl: [this.event.country, Validators.required],
       paymentCtrl: [this.event.payment, Validators.required],
     });

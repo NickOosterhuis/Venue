@@ -19,6 +19,7 @@ import { CreateEventComponent } from './components/events/create-event/create-ev
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
+  DateAdapter,
   MatButtonModule, MatCardModule, MatDatepickerModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -38,6 +39,7 @@ import {EmailValidator} from './customvalidators/email-validator';
 import {CompanyNameValidator} from './customvalidators/company-name-validator';
 import { UpdatePasswordComponent } from './components/profile/update-password/update-password.component';
 import { UpdateEventComponent } from './components/events/update-event/update-event.component';
+import {DateAdapterHelper} from './helpers/date-adapter-helper';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,10 @@ import { UpdateEventComponent } from './components/events/update-event/update-ev
       useClass: CompanyNameValidator,
       multi: true
     },
+    {
+      provide: DateAdapter,
+      useClass: DateAdapterHelper
+    }
   ],
   bootstrap: [AppComponent]
 })

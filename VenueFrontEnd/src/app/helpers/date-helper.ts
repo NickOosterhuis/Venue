@@ -1,9 +1,14 @@
 import {Injectable} from '@angular/core';
+import {DateAdapter} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateHelper {
+
+  constructor(private adapter: DateAdapter<any>) {
+    this.adapter.setLocale('nl_NL');
+  }
 
   formatDatetoLocalDate(date: string): string {
     const dateObj = new Date(date);
@@ -15,8 +20,15 @@ export class DateHelper {
     return dateObj.toLocaleTimeString('nl-NL', {hour12: false});
   }
 
-  calculateTimeAgo(date: string): string {
+  formatDbDatetoLocalTime(date: string): string {
+    const dateObj = new Date(date);
+    const timeTest = dateObj.toLocaleTimeString('nl-NL', {hour12: false});
 
+    const timeStr = timeTest.substring(0, timeTest.length - 3);
+    return timeStr;
+  }
+
+  calculateTimeAgo(date: string): string {
     const dateToObj: any = new Date(date);
     const now: any = new Date();
 
