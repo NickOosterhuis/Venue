@@ -1,0 +1,100 @@
+<div *ngIf="event" class="container">
+  <div class="row">
+    <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Update {{event.title}}</h5>
+          <form [formGroup]="updateEventFormGroup">
+            <mat-form-field>
+              <input matInput placeholder="Title" [value]="event.title" formControlName="titleCtrl" type="text" name="title" required>
+              <mat-error *ngIf="updateEventFormGroup.get('titleCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <textarea matInput placeholder="Description" [value]="event.description" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
+              <mat-error *ngIf="updateEventFormGroup.get('descriptionCtrl').hasError('required')">
+                Description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Reward for the band" [value]="event.payment" formControlName="paymentCtrl" type="number" name="reward">
+              <span matPrefix>€ </span>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Streetname" [value]="event.streetName" formControlName="streetNameCtrl" type="text" name="streetName" required>
+              <mat-error *ngIf="updateEventFormGroup.get('streetNameCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="House number" [value]="event.houseNumber" formControlName="houseNumberCtrl" type="text" name="houseNumber" required>
+              <mat-error *ngIf="updateEventFormGroup.get('houseNumberCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Postcode" [value]="event.postalCode" formControlName="postalCodeCtrl" type="text" name="postalCode" required>
+              <mat-error *ngIf="updateEventFormGroup.get('postalCodeCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="State" [value]="event.state" formControlName="stateCtrl" type="text" name="state" required>
+              <mat-error *ngIf="updateEventFormGroup.get('stateCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Country" [value]="event.country" formControlName="countryCtrl" type="text" name="country" required>
+              <mat-error *ngIf="updateEventFormGroup.get('countryCtrl').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div class="startDateAndTime">
+              <mat-form-field>
+                <input matInput id="datepicker" [value]="dateHelper.formatDatetoLocalDate(event.startDateAndTime)" [min]="currentDate" [max]="setMaxDateOnStartDatePicker()" [matDatepicker]="startPicker" formControlName="startDateCtrl" placeholder="Start date" required>
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker disabled="false"></mat-datepicker>
+                <mat-error *ngIf="updateEventFormGroup.get('startDateCtrl').hasError('required')">
+                  Start date is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Start time" [value]="dateHelper.formatDatetoLocalTime(event.startDateAndTime)" [ngxTimepicker]="startTime" [format]="24" formControlName="startTimeCtrl" readonly>
+                <ngx-material-timepicker #startTime></ngx-material-timepicker>
+                <mat-error *ngIf="updateEventFormGroup.get('startTimeCtrl').hasError('required')">
+                  Start time is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="endDateAndTime">
+              <mat-form-field>
+                <input matInput [value]="dateHelper.formatDatetoLocalDate(event.endDateAndTime)" [min]="setMinDateOnEndDatePicker()" [matDatepicker]="endPicker" formControlName="endDateCtrl" placeholder="End date" required>
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker disabled="false"></mat-datepicker>
+                <mat-error *ngIf="updateEventFormGroup.get('endDateCtrl').hasError('required')">
+                  End date is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput [value]="dateHelper.formatDatetoLocalTime(event.endDateAndTime)" placeholder="End time" [ngxTimepicker]="endTime" [format]="24" formControlName="endTimeCtrl" readonly>
+                <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                <mat-error *ngIf="updateEventFormGroup.get('endTimeCtrl').hasError('required')">
+                  End time is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-error *ngIf="eventError != null">{{eventUpdateError.message}}</mat-error>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="onUpdateEventClicked(id)">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

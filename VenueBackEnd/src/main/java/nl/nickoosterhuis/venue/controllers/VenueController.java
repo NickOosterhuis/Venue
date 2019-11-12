@@ -65,6 +65,17 @@ public class VenueController {
         return new ResponseEntity<>(convertToDTO(venue), HttpStatus.OK);
     }
 
+    @GetMapping("/byUser")
+    @PreAuthorize("hasRole('ROLE_VENUE')")
+    public ResponseEntity<?> getVenueByUser(@CurrentUser UserPrincipal userPrincipal) {
+        User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
+
+        Venue venue = venueRepository.findByUser(registeredUser)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", registeredUser.getId()));
+
+        return new ResponseEntity<>(convertToDTO(venue), HttpStatus.OK);
+    }
+
     @PostMapping("/checkname")
     public ResponseEntity<?> checkIfNameIsTaken(@RequestBody String name) {
         if(venueRepository.existsByCompanyName(name)) {

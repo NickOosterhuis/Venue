@@ -10,7 +10,7 @@
                 <div class="profile mr-3 my-3">
                   <img *ngIf="!user.profilePicture" src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="..." width="130" class="rounded mb-2 img-thumbnail">
                   <img *ngIf="user.profilePicture" src="{{user.profilePicture}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                  <button class="btn btn-dark btn-sm btn-block" (click)="openEditProfile(content)">Edit profile</button>
+                  <button class="btn btn-dark btn-sm btn-block" (click)="openEditProfile(profileContent)">Edit profile</button>
                 </div>
                 <div class="media-body mb-5 text-white">
                   <h4 class="mt-0 mb-0">{{user.name}}</h4>
@@ -18,18 +18,64 @@
                 </div>
               </div>
             </div>
-            <div class="bg-light text-center">
-              <h2>if User -> favorite list of events</h2>
-              <h2>If Venue -> list of registered events</h2>
+            <div class="bg-light">
+              <div *ngIf="userRole === 'ROLE_USER'">
+                <h2>if User -> favorite list of events</h2>
+              </div>
+              <div *ngIf="userRole === 'ROLE_VENUE'">
+                <div *ngIf="venue">
+                  <h5 class="card-title text-center my-3">{{venue.companyName}}'s planned events</h5>
+                  <div class="list-group">
+                    <div *ngFor="let event of events" class="list-group-item flex-column align-items-start">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{event.title}}</h5>
+                        <small>{{dateHelper.calculateTimeAgo(event.postedAt)}}</small>
+                      </div>
+                      <p class="mb-1">{{(event.description.length>100)? (event.description | slice:0:100)+'...':(event.description)}}</p>
+                      <div>
+                        <small>Starts on: <strong>{{dateHelper.formatDatetoLocalDate(event.startDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.startDateAndTime)}}</strong>
+                          and ends on: <strong>{{dateHelper.formatDatetoLocalDate(event.endDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.endDateAndTime)}}</strong></small>
+                      </div>
+                      <div>
+                      <small>{{event.venue.companyName}} {{event.state}}</small>
+                      </div>
+                      <div>
+                        <small>
+                        <a class="list-group-item-action" [routerLink]="['/events/edit', event.id]"  ><i class="far fa-edit"> Edit</i></a>
+                        </small>
+                        <small style="padding-left: 8px">
+                          <a class="list-group-item-action" (click)="throwDeleteAlert(deleteEventContent)"> <i class="far fa-trash-alt"> Delete</i></a>
+                        </small>
+                      </div>
+
+                      <!-- DELETE EVENT MODAL -->
+                      <ng-template #deleteEventContent let-modal>
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modal-basic-title">Are you sure?</h5>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Are you sure you want to delete {{event.title}}?</p>
+                          <button class="btn-primary btn-block text-uppercase" (click)="onDeleteEventClicked(event.id)">Yes</button>
+                          <button class="btn-danger btn-block text-uppercase" (click)="modal.dismiss('No click')">No</button>
+                        </div>
+                      </ng-template>
+                      <!-- END DELETE EVENT MODAL -->
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div><!-- End profile widget -->
         </div>
       </div>
 
-      <!-- EDIT MODAL -->
-      <ng-template #content let-modal>
+      <!-- EDIT PROFILE MODAL -->
+      <ng-template #profileContent let-modal>
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Update profile</h4>
+          <h5 class="modal-title" id="modal-basic-title">Update profile</h5>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>

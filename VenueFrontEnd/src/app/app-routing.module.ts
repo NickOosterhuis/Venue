@@ -9,6 +9,7 @@ import {VenueDetailsComponent} from './components/venue/venue-details/venue-deta
 import {EventDetailsComponent} from './components/events/event-details/event-details.component';
 import {CreateEventComponent} from './components/events/create-event/create-event.component';
 import {ProfileComponent} from './components/profile/profile/profile.component';
+import {UpdateEventComponent} from './components/events/update-event/update-event.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'events', component: EventListComponent },
   { path: 'events/details/:id', component: EventDetailsComponent},
   { path: 'events/create', component: CreateEventComponent },
+  { path: 'events/edit/:id', component: UpdateEventComponent },
 ];
 
 @NgModule({

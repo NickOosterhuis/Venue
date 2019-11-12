@@ -37,6 +37,7 @@ import {UsernameValidator} from './customvalidators/username-validator';
 import {EmailValidator} from './customvalidators/email-validator';
 import {CompanyNameValidator} from './customvalidators/company-name-validator';
 import { UpdatePasswordComponent } from './components/profile/update-password/update-password.component';
+import { UpdateEventComponent } from './components/events/update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { UpdatePasswordComponent } from './components/profile/update-password/up
     NavbarItemsComponent,
     ProfileComponent,
     UpdatePasswordComponent,
+    UpdateEventComponent,
   ],
   imports: [
     BrowserModule,

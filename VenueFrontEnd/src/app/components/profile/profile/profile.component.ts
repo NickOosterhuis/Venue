@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../../services/user/user.service';
-import {User} from '../../../models/user';
 import {ErrorResponse} from '../../../models/apiResponses/error-response';
 import {UserResponse} from '../../../models/apiResponses/user-response';
 import {AuthService} from '../../../services/auth/auth.service';
@@ -10,7 +9,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UsernameValidator} from '../../../customvalidators/username-validator';
 import {EmailValidator} from '../../../customvalidators/email-validator';
 import {UpdateUserProfile} from '../../../models/updateUserProfile';
-import {Constants} from '../../../constants';
+import {VenueResponse} from '../../../models/apiResponses/venue-response';
+import {VenueService} from '../../../services/venue/venue.service';
+import {EventService} from '../../../services/event/event.service';
+import {EventResponse} from '../../../models/apiResponses/event-response';
+import {DateHelper} from '../../../helpers/date-helper';
+import {Event} from '../../../models/event';
 
 @Component({
   selector: 'app-profile',
@@ -26,12 +30,19 @@ export class ProfileComponent implements OnInit {
   // modal stuff
   closeResult: string;
   updateProfileFormGroup: FormGroup;
-
-
   userRole: string;
+
+  venue: VenueResponse;
+  venueError: ErrorResponse;
+
+  events: Set<EventResponse>;
+  eventError: ErrorResponse;
 
   constructor(private userService: UserService,
               private authService: AuthService,
+              private venueService: VenueService,
+              private eventService: EventService,
+              private dateHelper: DateHelper,
               private router: Router,
               private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -44,6 +55,10 @@ export class ProfileComponent implements OnInit {
     } else {
       this.getProfile();
       this.getUserRole();
+
+      if (this.userRole === 'ROLE_VENUE') {
+        this.getVenue();
+      }
     }
   }
 
@@ -85,6 +100,22 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  throwDeleteAlert(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openEditVenue(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
   setupUpdateFormGroup(): void {
     this.updateProfileFormGroup = this.formBuilder.group({
       nameCtrl: [this.user.name, Validators.required, this.usernameValidator.checkUsername.bind(this.usernameValidator)],
@@ -102,7 +133,27 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  getUserRole() {
+  getUserRole(): void {
     this.userRole = this.authService.getUserRole();
+  }
+
+  getVenue(): void {
+    this.venueService.getVenueByUser().subscribe(
+      data => this.venue = data,
+      error => this.venueError = error,
+      next => {
+        this.eventService.getEventsByVenueId(this.venue.id).subscribe(
+        data => this.events = data,
+        error => this.venueError = error);
+      }
+    );
+  }
+
+  onDeleteEventClicked(id: string): void {
+    if (id) {
+      this.eventService.deleteEvent(id).subscribe();
+      this.modalService.dismissAll('event deleted');
+      location.reload();
+    }
   }
 }

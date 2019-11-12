@@ -113,6 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         "/user/auth/checkusername",
                         "/user/auth/checkemail",
+                        "/venue/byUser",
                         "/venue/**",
                         "/venue",
                         "/event/**",

@@ -30,4 +30,8 @@ export class VenueService {
   checkIfVenueNameIsTaken(companyName: string): any {
     return this.httpClient.post<any>(Constants.API_BASE_URL + Constants.API_VENUE + Constants.API_VENUE_CHECK, companyName);
   }
+
+  getVenueByUser(): any {
+    return this.httpClient.get(Constants.API_BASE_URL + Constants.API_VENUE + Constants.API_BY_USER);
+  }
 }

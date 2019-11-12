@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenResponse} from '../../models/apiResponses/token-response';
 import {Constants} from '../../constants';
 import {User} from '../../models/user';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -12,10 +12,6 @@ import {map} from 'rxjs/operators';
 export class AuthService {
   private currentUserSubject: BehaviorSubject<TokenResponse>;
   public currentUser: Observable<TokenResponse>;
-
-  // test
-  exists: boolean;
-
 
   constructor(private httpClient: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<TokenResponse>(JSON.parse(localStorage.getItem('currentUser')));

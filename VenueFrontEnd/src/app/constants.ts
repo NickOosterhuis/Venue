@@ -25,6 +25,8 @@ export class Constants {
 
   public static get API_VENUE_CHECK(): string {return '/checkname'; }
 
+  public static get API_BY_USER(): string { return '/byUser'; }
+
   // EVENT PATHS
 
   public static get API_EVENT(): string { return '/event'; }
