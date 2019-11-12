@@ -10,6 +10,7 @@ import {EventDetailsComponent} from './components/events/event-details/event-det
 import {CreateEventComponent} from './components/events/create-event/create-event.component';
 import {ProfileComponent} from './components/profile/profile/profile.component';
 import {UpdateEventComponent} from './components/events/update-event/update-event.component';
+import {AuthGuardService} from './services/auth/interceptors/auth-guard.service';
 
 
 const routes: Routes = [
@@ -22,8 +23,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/events', pathMatch: 'full' },
   { path: 'events', component: EventListComponent },
   { path: 'events/details/:id', component: EventDetailsComponent},
-  { path: 'events/create', component: CreateEventComponent },
-  { path: 'events/edit/:id', component: UpdateEventComponent },
+  { path: 'events/create', component: CreateEventComponent, canActivate : [AuthGuardService], data : { role : '"ROLE_VENUE"'} },
+  { path: 'events/edit/:id', component: UpdateEventComponent, canActivate : [AuthGuardService], data : { role : '"ROLE_VENUE"'}},
 ];
 
 @NgModule({
