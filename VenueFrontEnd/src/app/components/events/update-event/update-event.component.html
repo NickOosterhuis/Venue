@@ -3,7 +3,7 @@
     <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
       <div class="card my-5">
         <div class="card-body">
-          <h5 class="card-title text-center">Update {{event.title}}</h5>
+          <h5 class="card-title text-center">Edit {{event.title}}</h5>
           <form [formGroup]="updateEventFormGroup">
             <mat-form-field>
               <input matInput placeholder="Title" [value]="event.title" formControlName="titleCtrl" type="text" name="title" required>

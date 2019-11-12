@@ -74,10 +74,10 @@ export class UpdateEventComponent implements OnInit {
       houseNumberCtrl: [this.event.houseNumber, Validators.required],
       stateCtrl: [this.event.state, Validators.required],
       postalCodeCtrl: [this.event.postalCode, Validators.required],
-      startDateCtrl: [presetStartDate, Validators.required],
+      startDateCtrl: [this.event.startDateAndTime, Validators.required],
       startTimeCtrl: [presetStartTime, Validators.required],
       endTimeCtrl: [presetEndTime, Validators.required],
-      endDateCtrl: [presetEndDate, Validators.required],
+      endDateCtrl: [this.event.endDateAndTime, Validators.required],
       countryCtrl: [this.event.country, Validators.required],
       paymentCtrl: [this.event.payment, Validators.required],
     });
