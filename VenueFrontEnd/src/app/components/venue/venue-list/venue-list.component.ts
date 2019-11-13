@@ -3,6 +3,7 @@ import {EventResponse} from '../../../models/apiResponses/event-response';
 import {ErrorResponse} from '../../../models/apiResponses/error-response';
 import {VenueResponse} from '../../../models/apiResponses/venue-response';
 import {VenueService} from '../../../services/venue/venue.service';
+import {DateHelper} from '../../../helpers/date-helper';
 
 @Component({
   selector: 'app-venue-list',
@@ -22,5 +23,4 @@ export class VenueListComponent implements OnInit {
       error => this.error = error
     );
   }
-
 }

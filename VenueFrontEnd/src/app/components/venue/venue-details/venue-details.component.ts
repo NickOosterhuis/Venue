@@ -45,4 +45,9 @@ export class VenueDetailsComponent implements OnInit {
     );
   }
 
+  isDateInPast(event: EventResponse): any {
+    const currentDate = new Date();
+    return event.endDateAndTime < this.dateHelper.convertJSDateToDateTimeOffset(currentDate);
+  }
+
 }
