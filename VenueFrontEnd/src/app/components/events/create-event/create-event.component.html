@@ -5,6 +5,7 @@
         <div class="card-body">
           <h5 class="card-title text-center">Create event</h5>
           <form [formGroup]="createEventFormGroup">
+            <h6>What kind of event?</h6>
             <mat-form-field>
               <input matInput placeholder="Title" formControlName="titleCtrl" type="text" name="title" required>
               <mat-error *ngIf="createEventFormGroup.get('titleCtrl').hasError('required')">
@@ -12,15 +13,29 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <textarea matInput placeholder="Description" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
+              <textarea matInput placeholder="Tell some more about the event" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
               <mat-error *ngIf="createEventFormGroup.get('descriptionCtrl').hasError('required')">
                 Description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <h6>What kind of band is suited for your event?</h6>
+            <mat-form-field>
+              <textarea matInput placeholder="What kind of band are you looking for?" formControlName="bandDescriptionCtrl" type="text" name="bandDescription" required></textarea>
+              <mat-error *ngIf="createEventFormGroup.get('bandDescriptionCtrl').hasError('required')">
+                Band description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Specify one or more genres" formControlName="genreCtrl" type="text" name="genreCtrl" required>
+              <mat-error *ngIf="createEventFormGroup.get('genreCtrl').hasError('required')">
+                Genre is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input matInput placeholder="Reward for the band" formControlName="paymentCtrl" type="number" name="reward">
               <span matPrefix>€ </span>
             </mat-form-field>
+            <h6>Where is the event?</h6>
             <mat-form-field>
               <input matInput placeholder="Streetname" formControlName="streetNameCtrl" type="text" name="streetName" required>
               <mat-error *ngIf="createEventFormGroup.get('streetNameCtrl').hasError('required')">
@@ -51,7 +66,7 @@
                 Title is <strong>required</strong>
               </mat-error>
             </mat-form-field>
-
+            <h6>When is the event?</h6>
             <div class="startDateAndTime">
               <mat-form-field>
                 <input matInput id="datepicker" [min]="currentDate" [max]="setMaxDateOnStartDatePicker()" [matDatepicker]="startPicker" formControlName="startDateCtrl" placeholder="Start date" required>

@@ -1,6 +1,8 @@
 export class Event {
   title: string;
   description: string;
+  bandDescription: string;
+  genre: string;
   payment: number;
   streetName: string;
   houseNumber: string;
@@ -19,7 +21,9 @@ export class Event {
               state: string,
               country: string,
               startDateAndTime: string,
-              endDateAndTime: string,) {
+              endDateAndTime: string,
+              bandDescription: string,
+              genre: string) {
     this.title = title;
     this.description = description;
     this.payment = payment;
@@ -31,5 +35,7 @@ export class Event {
     this.country = country;
     this.startDateAndTime = startDateAndTime;
     this.endDateAndTime = endDateAndTime;
+    this.bandDescription = bandDescription;
+    this.genre = genre;
   }
 }

@@ -80,6 +80,8 @@ export class UpdateEventComponent implements OnInit {
       endDateCtrl: [this.event.endDateAndTime, Validators.required],
       countryCtrl: [this.event.country, Validators.required],
       paymentCtrl: [this.event.payment, Validators.required],
+      bandDescriptionCtrl: [this.event.bandDescription, Validators.required],
+      genreCtrl: [this.event.genre, Validators.required]
     });
   }
 
@@ -96,6 +98,8 @@ export class UpdateEventComponent implements OnInit {
     const country: string = this.updateEventFormGroup.get('countryCtrl').value;
     const startDateAndTime: string = this.startDateAndTime;
     const endDateAndTime: string = this.endDateAndTime;
+    const bandDescription: string = this.updateEventFormGroup.get('bandDescriptionCtrl').value;
+    const genre: string = this.updateEventFormGroup.get('genreCtrl').value;
 
     const event = new Event(
       title,
@@ -107,7 +111,9 @@ export class UpdateEventComponent implements OnInit {
       state,
       country,
       startDateAndTime,
-      endDateAndTime
+      endDateAndTime,
+      bandDescription,
+      genre
     );
 
     this.eventService.putEvent(id, event).subscribe(

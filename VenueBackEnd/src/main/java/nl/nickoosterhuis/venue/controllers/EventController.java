@@ -144,6 +144,8 @@ public class EventController {
         event.setHouseNumber(eventRequest.getHouseNumber().trim());
         event.setCountry(eventRequest.getCountry().trim());
         event.setDescription(eventRequest.getDescription().trim());
+        event.setBandDescription(eventRequest.getBandDescription());
+        event.setGenre(eventRequest.getGenre());
         event.setTitle(eventRequest.getTitle().trim());
         event.setEndDateAndTime(eventRequest.getEndDateAndTime());
         event.setStartDateAndTime(eventRequest.getStartDateAndTime());

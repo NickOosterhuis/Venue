@@ -13,6 +13,10 @@
                 </mat-card-header>
                 <mat-card-content class="text-left px-3">
                   <p>{{event.description}}</p>
+                  <mat-divider></mat-divider>
+                  <h5 style="padding-top: 16px">Looking for</h5>
+                  <p>{{event.bandDescription}}</p>
+                  <p>Genre(s): {{event.genre}}</p>
                   <p *ngIf="event.payment">Reward: €{{event.payment}}</p>
                   <mat-divider></mat-divider>
                   <h5 style="padding-top: 16px">When</h5>

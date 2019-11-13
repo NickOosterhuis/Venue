@@ -32,7 +32,9 @@
                         <h5 class="mb-1">{{event.title}}</h5>
                         <small>{{dateHelper.calculateTimeAgo(event.postedAt)}}</small>
                       </div>
-                      <p class="mb-1">{{(event.description.length>100)? (event.description | slice:0:100)+'...':(event.description)}}</p>
+                      <p class="mb-1">Event info: {{(event.description.length>100)? (event.description | slice:0:100)+'...':(event.description)}}</p>
+                      <p class="mb-1">Looking for: {{(event.bandDescription.length>100)? (event.bandDescription | slice:0:100)+'...':(event.bandDescription)}}</p>
+                      <p class="mb-1">Genre(s): {{(event.genre.length>100)? (event.genre | slice:0:100)+'...':(event.genre)}}</p>
                       <div>
                         <small>Starts on: <strong>{{dateHelper.formatDatetoLocalDate(event.startDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.startDateAndTime)}}</strong>
                           and ends on: <strong>{{dateHelper.formatDatetoLocalDate(event.endDateAndTime)}}</strong> at <strong>{{dateHelper.formatDatetoLocalTime(event.endDateAndTime)}}</strong></small>

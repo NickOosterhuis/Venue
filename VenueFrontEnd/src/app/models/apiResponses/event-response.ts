@@ -5,6 +5,8 @@ export class EventResponse {
   id: string;
   title: string;
   description: string;
+  bandDescription: string;
+  genre: string;
   payment: number;
   streetName: string;
   houseNumber: string;

@@ -16,6 +16,12 @@ public class UpdateEventRequest {
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String bandDescription;
+
+    @NotBlank
+    private String genre;
+
     private OffsetDateTime startDateAndTime;
 
     private OffsetDateTime endDateAndTime;

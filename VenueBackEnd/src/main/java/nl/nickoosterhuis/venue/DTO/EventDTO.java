@@ -18,12 +18,14 @@ public class EventDTO {
     @NotBlank
     private String description;
     @NotBlank
+    private String bandDescription;
+    @NotBlank
+    private String genre;
+    @NotBlank
     private OffsetDateTime startDateAndTime;
     @NotBlank
     private OffsetDateTime endDateAndTime;
-
     private OffsetDateTime postedAt;
-
     @NotBlank
     private String streetName;
     @NotBlank

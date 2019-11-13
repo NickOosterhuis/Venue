@@ -12,9 +12,21 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <textarea matInput placeholder="Description" [value]="event.description" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
+              <textarea matInput placeholder="Tell some more about the event" [value]="event.description" formControlName="descriptionCtrl" type="text" name="description" required></textarea>
               <mat-error *ngIf="updateEventFormGroup.get('descriptionCtrl').hasError('required')">
                 Description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <textarea matInput placeholder="What kind of band are you looking for?" [value]="event.description" formControlName="bandDescriptionCtrl" type="text" name="bandDescription" required></textarea>
+              <mat-error *ngIf="updateEventFormGroup.get('bandDescriptionCtrl').hasError('required')">
+                Band description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <textarea matInput placeholder="Specify one or more genres" [value]="event.description" formControlName="genreCtrl" type="text" name="genreCtrl" required></textarea>
+              <mat-error *ngIf="updateEventFormGroup.get('genreCtrl').hasError('required')">
+                Genre is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>

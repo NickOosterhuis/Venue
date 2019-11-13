@@ -53,6 +53,8 @@ export class CreateEventComponent implements OnInit {
       endDateCtrl: ['', Validators.required],
       countryCtrl: ['', Validators.required],
       paymentCtrl: ['', Validators.required],
+      bandDescriptionCtrl: ['', Validators.required],
+      genreCtrl: ['', Validators.required]
     });
   }
 
@@ -79,6 +81,8 @@ export class CreateEventComponent implements OnInit {
     const country: string = this.createEventFormGroup.get('countryCtrl').value;
     const startDateAndTime: string = this.startDateAndTime;
     const endDateAndTime: string = this.endDateAndTime;
+    const bandDescription: string = this.createEventFormGroup.get('bandDescriptionCtrl').value;
+    const genre: string = this.createEventFormGroup.get('genreCtrl').value;
 
     const event = new Event(
       title,
@@ -90,7 +94,9 @@ export class CreateEventComponent implements OnInit {
       state,
       country,
       startDateAndTime,
-      endDateAndTime
+      endDateAndTime,
+      bandDescription,
+      genre
     );
 
     this.eventService.postEvent(event).subscribe(

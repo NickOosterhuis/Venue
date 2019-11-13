@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -32,6 +33,13 @@ public class Event {
     @Column(nullable = false)
     @Lob
     private String description;
+
+    @Column(nullable = false)
+    @Lob
+    private String bandDescription;
+
+    @Column(nullable = false)
+    private String genre;
 
     @Column(nullable = false)
     private OffsetDateTime startDateAndTime;
