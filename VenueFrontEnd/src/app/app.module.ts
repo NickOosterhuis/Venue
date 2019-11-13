@@ -23,7 +23,7 @@ import {
   MatButtonModule, MatCardModule, MatDatepickerModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatNativeDateModule,
+  MatInputModule, MatNativeDateModule, MatPaginatorModule,
   MatRadioModule,
   MatSelectModule, MatSlideToggleModule,
   MatStepperModule
@@ -80,7 +80,8 @@ import {DateAdapterHelper} from './helpers/date-adapter-helper';
     MatNativeDateModule,
     NgxMaterialTimepickerModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    MatPaginatorModule
   ],
   providers: [
     {

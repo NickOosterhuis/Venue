@@ -5,7 +5,7 @@
         <div class="card-body">
           <h5 class="card-title text-center">Upcoming events</h5>
           <div class="list-group">
-            <a *ngFor="let event of events" [routerLink]="['details', event.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a *ngFor="let event of events | slice: lowValue : highValue" [routerLink]="['details', event.id]" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{event.title}}</h5>
                 <small>{{dateHelper.calculateTimeAgo(event.postedAt)}}</small>
@@ -19,6 +19,9 @@
               </div>
               <small>{{event.venue.companyName}} {{event.state}}</small>
             </a>
+            <mat-paginator [length]="events.length" [pageSize]="pageSize"
+                           (page)="pageEvent = getPaginatorData($event)">
+            </mat-paginator>
           </div>
         </div>
       </div>

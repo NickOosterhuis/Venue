@@ -4,6 +4,7 @@ import {EventResponse} from '../../../models/apiResponses/event-response';
 import {EventService} from '../../../services/event/event.service';
 import {AuthService} from '../../../services/auth/auth.service';
 import {DateHelper} from '../../../helpers/date-helper';
+import {MatTableDataSource, PageEvent} from '@angular/material';
 
 @Component({
   selector: 'app-event-list',
@@ -12,29 +13,43 @@ import {DateHelper} from '../../../helpers/date-helper';
 })
 export class EventListComponent implements OnInit {
 
-  events: Set<EventResponse>;
+  events: ReadonlyArray<EventResponse>;
   error: ErrorResponse;
   userRole: string;
 
+  pageEvent: PageEvent;
+
+  pageIndex = 0;
+  pageSize = 5;
+  lowValue = 0;
+  highValue = 5;
+
   constructor(private eventService: EventService,
               private authService: AuthService,
-              private dateHelper: DateHelper) { }
+              private dateHelper: DateHelper) {}
 
   ngOnInit() {
     this.eventService.getEvents().subscribe(
-      data => this.events = data,
+      data => {
+        this.events = data;
+      },
       error => this.error = error
     );
-
-    if (this.error) {
-      this.events = new Set<EventResponse>();
-    }
 
     if (this.authService.isUserLoggedIn()) {
       this.userRole = this.authService.getUserRole();
     }
   }
 
-
-
+  getPaginatorData(event): any {
+    console.log(event);
+    if(event.pageIndex === this.pageIndex + 1){
+      this.lowValue = this.lowValue + this.pageSize;
+      this.highValue =  this.highValue + this.pageSize;
+    } else if(event.pageIndex === this.pageIndex - 1){
+      this.lowValue = this.lowValue - this.pageSize;
+      this.highValue =  this.highValue - this.pageSize;
+    }
+    this.pageIndex = event.pageIndex;
+  }
 }
