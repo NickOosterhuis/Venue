@@ -128,12 +128,18 @@ public class EventController {
 
         User registeredUser = userPrincipalHelper.getUserPrincipal(userPrincipal);
         Venue registeredVenue = venueRepository.findByUser(registeredUser)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));;
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
-        if (eventRequest.getStartDateAndTime().isAfter(eventRequest.getEndDateAndTime()))
-            throw new BadRequestException("The start date of the event is above the end date of the event");
+        if(eventRequest.getStartDateAndTime() != null && event.getEndDateAndTime() != null) {
+            if (eventRequest.getStartDateAndTime().isAfter(eventRequest.getEndDateAndTime()))
+                throw new BadRequestException("The start date of the event is above the end date of the event");
 
-
+            event.setEndDateAndTime(eventRequest.getEndDateAndTime());
+            event.setStartDateAndTime(eventRequest.getStartDateAndTime());
+        } else {
+            event.setEndDateAndTime(event.getEndDateAndTime());
+            event.setStartDateAndTime(event.getEndDateAndTime());
+        }
 
         if(!registeredVenue.getId().equals(event.getVenue().getId()))
             throw new BadRequestException("Venue is not the owner of the event");
@@ -147,8 +153,7 @@ public class EventController {
         event.setBandDescription(eventRequest.getBandDescription());
         event.setGenre(eventRequest.getGenre());
         event.setTitle(eventRequest.getTitle().trim());
-        event.setEndDateAndTime(eventRequest.getEndDateAndTime());
-        event.setStartDateAndTime(eventRequest.getStartDateAndTime());
+
         event.setPayment(eventRequest.getPayment());
 
         eventRepository.save(event);

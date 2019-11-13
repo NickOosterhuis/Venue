@@ -57,15 +57,8 @@ export class UpdateEventComponent implements OnInit {
   }
 
   setupUpdateEventFormGroup(): void {
-
-    const presetStartDate = this.dateHelper.formatDatetoLocalDate(this.event.startDateAndTime);
     const presetStartTime = this.dateHelper.formatDbDatetoLocalTime(this.event.startDateAndTime);
-    const presetEndDate = this.dateHelper.formatDatetoLocalDate(this.event.endDateAndTime);
     const presetEndTime = this.dateHelper.formatDbDatetoLocalTime(this.event.endDateAndTime);
-
-    console.log(presetStartDate);
-    console.log(presetStartTime);
-
 
     this.updateEventFormGroup = this.formBuilder.group( {
       titleCtrl: [this.event.title, Validators.required],
@@ -86,8 +79,6 @@ export class UpdateEventComponent implements OnInit {
   }
 
   onUpdateEventClicked(id: string): void {
-    this.combineDateAndTimes();
-
     const title: string = this.updateEventFormGroup.get('titleCtrl').value;
     const description: string = this.updateEventFormGroup.get('descriptionCtrl').value;
     const payment: number = this.updateEventFormGroup.get('paymentCtrl').value;
@@ -100,6 +91,9 @@ export class UpdateEventComponent implements OnInit {
     const endDateAndTime: string = this.endDateAndTime;
     const bandDescription: string = this.updateEventFormGroup.get('bandDescriptionCtrl').value;
     const genre: string = this.updateEventFormGroup.get('genreCtrl').value;
+
+    if (startDateAndTime !== this.startDateAndTime || endDateAndTime !== this.endDateAndTime)
+      this.combineDateAndTimes();
 
     const event = new Event(
       title,
@@ -120,6 +114,8 @@ export class UpdateEventComponent implements OnInit {
       data => this.router.navigate(['/profile']),
       error => this.eventUpdateError = error
     );
+
+
   }
 
   setMaxDateOnStartDatePicker(): Date {
