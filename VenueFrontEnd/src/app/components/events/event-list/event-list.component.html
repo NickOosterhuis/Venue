@@ -19,7 +19,7 @@
               </div>
               <small>{{event.venue.companyName}} {{event.state}}</small>
             </a>
-            <mat-paginator [length]="events.length" [pageSize]="pageSize"
+            <mat-paginator *ngIf="events.length > 5" [length]="events.length" [pageSize]="pageSize"
                            (page)="pageEvent = getPaginatorData($event)">
             </mat-paginator>
           </div>

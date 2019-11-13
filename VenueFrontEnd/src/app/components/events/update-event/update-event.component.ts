@@ -7,7 +7,7 @@ import {DateHelper} from '../../../helpers/date-helper';
 import {EventResponse} from '../../../models/apiResponses/event-response';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter, PageEvent} from '@angular/material';
 
 @Component({
   selector: 'app-update-event',
@@ -152,5 +152,4 @@ export class UpdateEventComponent implements OnInit {
 
     this.endDateAndTime = this.dateHelper.convertJSDateToDateTimeOffset(this.pickedEndDate);
   }
-
 }

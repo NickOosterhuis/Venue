@@ -15,6 +15,7 @@ import {EventService} from '../../../services/event/event.service';
 import {EventResponse} from '../../../models/apiResponses/event-response';
 import {DateHelper} from '../../../helpers/date-helper';
 import {Event} from '../../../models/event';
+import {PageEvent} from '@angular/material';
 
 @Component({
   selector: 'app-profile',
@@ -35,7 +36,7 @@ export class ProfileComponent implements OnInit {
   venue: VenueResponse;
   venueError: ErrorResponse;
 
-  events: Set<EventResponse>;
+  events: ReadonlyArray<EventResponse>;
   eventError: ErrorResponse;
 
   constructor(private userService: UserService,
@@ -108,14 +109,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  openEditVenue(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
   setupUpdateFormGroup(): void {
     this.updateProfileFormGroup = this.formBuilder.group({
       nameCtrl: [this.user.name, Validators.required, this.usernameValidator.checkUsername.bind(this.usernameValidator)],
@@ -135,8 +128,6 @@ export class ProfileComponent implements OnInit {
 
   getUserRole(): void {
     this.userRole = this.authService.getUserRole();
-
-    console.log(this.userRole)
   }
 
   getVenue(): void {
