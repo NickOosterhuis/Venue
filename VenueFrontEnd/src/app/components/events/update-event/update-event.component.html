@@ -18,13 +18,13 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <textarea matInput placeholder="What kind of band are you looking for?" [value]="event.description" formControlName="bandDescriptionCtrl" type="text" name="bandDescription" required></textarea>
+              <textarea matInput placeholder="What kind of band are you looking for?" [value]="event.bandDescription" formControlName="bandDescriptionCtrl" type="text" name="bandDescription" required></textarea>
               <mat-error *ngIf="updateEventFormGroup.get('bandDescriptionCtrl').hasError('required')">
                 Band description is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <textarea matInput placeholder="Specify one or more genres" [value]="event.description" formControlName="genreCtrl" type="text" name="genreCtrl" required></textarea>
+              <textarea matInput placeholder="Specify one or more genres" [value]="event.genre" formControlName="genreCtrl" type="text" name="genreCtrl" required></textarea>
               <mat-error *ngIf="updateEventFormGroup.get('genreCtrl').hasError('required')">
                 Genre is <strong>required</strong>
               </mat-error>
@@ -36,31 +36,31 @@
             <mat-form-field>
               <input matInput placeholder="Streetname" [value]="event.streetName" formControlName="streetNameCtrl" type="text" name="streetName" required>
               <mat-error *ngIf="updateEventFormGroup.get('streetNameCtrl').hasError('required')">
-                Title is <strong>required</strong>
+                Street Name is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input matInput placeholder="House number" [value]="event.houseNumber" formControlName="houseNumberCtrl" type="text" name="houseNumber" required>
               <mat-error *ngIf="updateEventFormGroup.get('houseNumberCtrl').hasError('required')">
-                Title is <strong>required</strong>
+                House number is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input matInput placeholder="Postcode" [value]="event.postalCode" formControlName="postalCodeCtrl" type="text" name="postalCode" required>
               <mat-error *ngIf="updateEventFormGroup.get('postalCodeCtrl').hasError('required')">
-                Title is <strong>required</strong>
+                Postcode is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input matInput placeholder="Region/State/Province" [value]="event.state" formControlName="stateCtrl" type="text" name="state" required>
               <mat-error *ngIf="updateEventFormGroup.get('stateCtrl').hasError('required')">
-                Title is <strong>required</strong>
+                Region/State/Province is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input matInput placeholder="Country" [value]="event.country" formControlName="countryCtrl" type="text" name="country" required>
               <mat-error *ngIf="updateEventFormGroup.get('countryCtrl').hasError('required')">
-                Title is <strong>required</strong>
+                Country is <strong>required</strong>
               </mat-error>
             </mat-form-field>
 

@@ -52,8 +52,6 @@ export class UpdateEventComponent implements OnInit {
       },
       error => this.eventError = error
     );
-
-
   }
 
   setupUpdateEventFormGroup(): void {
@@ -79,6 +77,8 @@ export class UpdateEventComponent implements OnInit {
   }
 
   onUpdateEventClicked(id: string): void {
+    this.combineDateAndTimes();
+
     const title: string = this.updateEventFormGroup.get('titleCtrl').value;
     const description: string = this.updateEventFormGroup.get('descriptionCtrl').value;
     const payment: number = this.updateEventFormGroup.get('paymentCtrl').value;
@@ -92,8 +92,6 @@ export class UpdateEventComponent implements OnInit {
     const bandDescription: string = this.updateEventFormGroup.get('bandDescriptionCtrl').value;
     const genre: string = this.updateEventFormGroup.get('genreCtrl').value;
 
-    if (startDateAndTime !== this.startDateAndTime || endDateAndTime !== this.endDateAndTime)
-      this.combineDateAndTimes();
 
     const event = new Event(
       title,
@@ -135,6 +133,7 @@ export class UpdateEventComponent implements OnInit {
     const startHour = parseInt(startTimeArr[0], 10);
     const startMin = parseInt(startTimeArr[1], 10);
 
+    console.log('Before set hours: ' + this.pickedStartDate);
     this.pickedStartDate.setHours(startHour, startMin, 0);
     console.log(this.pickedStartDate);
 
