@@ -52,4 +52,10 @@ export class EventListComponent implements OnInit {
     }
     this.pageIndex = event.pageIndex;
   }
+
+  isDateInPast(event: EventResponse): any {
+
+    const currentDate = new Date();
+    return event.endDateAndTime < this.dateHelper.convertJSDateToDateTimeOffset(currentDate);
+  }
 }
