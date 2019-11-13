@@ -70,14 +70,16 @@ export class RegisterComponent implements OnInit {
       next => {
         if (this.errorRegisterObj == null) {
           this.authService.login(user.email, user.password).subscribe(
-            () => this.registerVenue()
+            () => {
+              this.registerVenue(user.email, user.password);
+            }
           );
         }
       },
     );
   }
 
-  registerVenue(): void {
+  registerVenue(email: string, password: string): void {
 
     console.log('this is a venue ' + this.isVenue)
 
@@ -95,6 +97,7 @@ export class RegisterComponent implements OnInit {
       this.venueService.postVenue(venue).subscribe(
         data => console.log(data),
         error => this.errorVenueObj = error,
+        next => this.authService.login(email, password).subscribe()
       );
     }
   }

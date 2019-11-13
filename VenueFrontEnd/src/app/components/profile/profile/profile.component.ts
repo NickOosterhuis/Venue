@@ -135,6 +135,8 @@ export class ProfileComponent implements OnInit {
 
   getUserRole(): void {
     this.userRole = this.authService.getUserRole();
+
+    console.log(this.userRole)
   }
 
   getVenue(): void {
