@@ -52,7 +52,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="State" [value]="event.state" formControlName="stateCtrl" type="text" name="state" required>
+              <input matInput placeholder="Region/State/Province" [value]="event.state" formControlName="stateCtrl" type="text" name="state" required>
               <mat-error *ngIf="updateEventFormGroup.get('stateCtrl').hasError('required')">
                 Title is <strong>required</strong>
               </mat-error>
